@@ -1,17 +1,11 @@
-Build development
-```
-git clone https://github.com/vunguyen10111995/react-base-saga
-```
-Install dependencies
-```$shell
-$ yarn
-```
-Run development
-```$shell
-$ yarn start
-```
+# VMOflix - Trang review phim hàng đầu
 
-Run build production
-```$shell
-$ yarn build
-```
+## Structure:
+
+[https://github.com/vunguyen10111995/react-base-saga](https://github.com/vunguyen10111995/react-base-saga)
+
+## Technology:
+
+- ReactJS
+- Redux
+- Redux-Saga
