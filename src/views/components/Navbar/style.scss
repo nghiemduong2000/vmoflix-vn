@@ -1,0 +1,8 @@
+.navbar {
+  &__right {
+    .navbar__btn {
+      @apply text-white;
+      @apply rounded-md;
+    }
+  }
+}

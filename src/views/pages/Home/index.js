@@ -1,7 +1,10 @@
 import React from 'react';
+import Navbar from 'views/components/Navbar';
 
 const HomePage = () => (
-    <div className='text-red-500'>Hello</div>
+  <div className='home'>
+    <Navbar />
+  </div>
 );
 
 export default HomePage;

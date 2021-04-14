@@ -11,34 +11,25 @@
     "es6": true,
     "browser": true
   },
-  "globals": {
-  },
-  "extends": ["eslint-config-airbnb"],
-  "plugins": [
-    "react-hooks",
-    "import-order-autofix"
-  ],
+  "globals": {},
+  "extends": ["airbnb", "react-app", "plugin:react/recommended", "prettier"],
+  "plugins": ["react-hooks", "react", "import-order-autofix"],
   "rules": {
     "import/order": "off",
     "no-console": "off",
     "no-undef": "off",
-    "import-order-autofix/order": ["error", { "groups": [
-      ["builtin", "external"]
-    ],
-      "newlines-between": "always"
-    }
-    ],
+    "import-order-autofix/order": 0,
     "arrow-parens": "warn",
-    "comma-dangle": ["error", {"functions": "ignore"}],
+    "comma-dangle": 0,
     "consistent-return": "off",
     "eqeqeq": "off",
     "function-paren-newline": "off",
     "import/extensions": ["error", { "js": "never" }],
     "import/no-named-as-default": "off",
     "import/no-named-as-default-member": "off",
-    "import/no-unresolved": "error",
-    "import/no-extraneous-dependencies": ["error", {"devDependencies": true}],
-    "indent": ["error", 4],
+    "import/no-unresolved": "off",
+    "import/no-extraneous-dependencies": ["error", { "devDependencies": true }],
+    "indent": ["error", 2],
     "jsx-a11y/alt-text": "off",
     "jsx-a11y/anchor-is-valid": "off",
     "jsx-a11y/anchor-has-content": "off",
@@ -50,19 +41,23 @@
     "no-plusplus": ["error", { "allowForLoopAfterthoughts": true }],
     "no-return-assign": "off",
     "no-use-before-define": ["error", { "functions": false }],
-    "object-curly-newline": ["error",  {
-      "ObjectExpression": {"consistent": true},
-      "ObjectPattern": {"consistent": true},
-      "ImportDeclaration": {"consistent": true},
-      "ExportDeclaration": {"consistent": true}
-    }],
+    "object-curly-newline": [
+      "error",
+      {
+        "ObjectExpression": { "consistent": true },
+        "ObjectPattern": { "consistent": true },
+        "ImportDeclaration": { "consistent": true },
+        "ExportDeclaration": { "consistent": true }
+      }
+    ],
     "object-curly-spacing": "off",
     "prefer-const": "warn",
+    "react/display-name": "off",
     "react/jsx-boolean-value": "warn",
     "react/jsx-filename-extension": ["error", { "extensions": [".js"] }],
-    "react/jsx-indent-props": ["error", 4],
-    "react/jsx-indent": ["error", 4],
-    "react/jsx-no-bind": ["warn", {"ignoreRefs": true}],
+    "react/jsx-indent-props": ["error", 2],
+    "react/jsx-indent": ["error", 2],
+    "react/jsx-no-bind": "off",
     "react/no-array-index-key": "warn",
     "jsx-a11y/label-has-for": "off",
     "no-underscore-dangle": "off",

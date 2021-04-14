@@ -1,9 +1,7 @@
-import {
-    createAction
-} from 'redux-actions';
-
-import { put, call, takeLatest } from 'redux-saga/effects';
+import { createAction } from 'redux-actions';
+import { call, put, takeLatest } from 'redux-saga/effects';
 import types from './types';
+
 // import handleError from '~/utils/ErrorHandler';
 
 //= ============== ACTIONS ===============//
@@ -14,26 +12,26 @@ const storeData = createAction(types.STORE_EXAMPLES);
 const storePaginate = createAction(types.STORE_PAGINATE);
 
 export const actions = {
-    load
+  load,
 };
 
 //= =============== SAGAS ===============//
 export function* sagas() {
-    yield takeLatest(types.LOAD_EXAMPLES, fetchData);
+  yield takeLatest(types.LOAD_EXAMPLES, fetchData);
 }
 
 function* fetchData({ payload }) {
-    try {
-        const exampleApi = {
-            fetch: 1
-        };
-        const { data: response } = yield call(exampleApi.fetch, payload);
-        const { data, meta } = response;
-        yield put(storeData(data));
-        yield put(storePaginate(meta));
-        yield put(loadSuccess());
-    } catch (error) {
-        // handleError(error);
-        yield put(loadFail());
-    }
+  try {
+    const exampleApi = {
+      fetch: 1,
+    };
+    const { data: response } = yield call(exampleApi.fetch, payload);
+    const { data, meta } = response;
+    yield put(storeData(data));
+    yield put(storePaginate(meta));
+    yield put(loadSuccess());
+  } catch (error) {
+    // handleError(error);
+    yield put(loadFail());
+  }
 }

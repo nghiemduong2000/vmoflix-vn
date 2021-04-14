@@ -5,8 +5,8 @@ import types from './types';
 export default reducer;
 
 export {
-  types as exampleTypes,
-  sagas as exampleSagas,
-  actions as exampleActions,
-  selectors as exampleSelectors,
+  types as adminTypes,
+  sagas as adminSagas,
+  actions as adminActions,
+  selectors as adminSelectors,
 };
