@@ -18,7 +18,7 @@ const Loadable = (func) => {
   const Component = lazy(func);
 
   return (props) => (
-    <Suspense fallback={Loading}>
+    <Suspense fallback={<Loading />}>
       {/* eslint-disable-next-line */}
       <Component {...props} />
     </Suspense>

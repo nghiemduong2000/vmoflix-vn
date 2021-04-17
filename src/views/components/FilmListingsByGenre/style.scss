@@ -1,0 +1,24 @@
+.filmListingsByGenre {
+  &__list {
+    &::-webkit-scrollbar {
+    }
+  }
+  &__control {
+    @apply absolute h-12rem top-1/2 transform -translate-y-1/2 w-6rem z-1 flex justify-center items-center bg-black-body bg-opacity-50 transition-all duration-600 cursor-pointer;
+    & > svg {
+      @apply text-40 text-white transition-all duration-200;
+    }
+    &:hover {
+      @apply bg-opacity-70;
+      svg {
+        @apply transform scale-125;
+      }
+    }
+    &.next {
+      @apply right-0;
+    }
+    &.previous {
+      @apply left-0;
+    }
+  }
+}

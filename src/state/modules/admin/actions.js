@@ -15,7 +15,7 @@ const authError = createAction(types.AUTH_ERROR);
 
 // Action Login
 const login = createAction(types.LOGIN);
-const loginSuccess = createAction(types.LOGIN_SUCSESS);
+const loginSuccess = createAction(types.LOGIN_SUCCESS);
 const loginFail = createAction(types.LOGIN_FAIL);
 
 // Action Logout
@@ -50,14 +50,14 @@ function* loginSaga(action) {
     yield put(
       returnErrors(err.response.data, err.response.status, 'LOGIN_FAIL'),
     );
-    yield put(loginFail);
+    yield put(loginFail());
   }
 }
 
 function* logoutSaga() {
   try {
     yield call(logoutApi);
-    yield put(logoutSuccess);
+    yield put(logoutSuccess());
   } catch (err) {
     console.log(err);
   }

@@ -58,6 +58,7 @@
     "react/jsx-indent-props": ["error", 2],
     "react/jsx-indent": ["error", 2],
     "react/jsx-no-bind": "off",
+    "react/jsx-curly-newline": "off",
     "react/no-array-index-key": "warn",
     "jsx-a11y/label-has-for": "off",
     "no-underscore-dangle": "off",

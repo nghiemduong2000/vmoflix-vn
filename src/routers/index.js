@@ -1,3 +1,4 @@
+import CreateReview from 'views/pages/CreateReview';
 import Login from 'views/pages/Login';
 import Loadable from '../utils/Loadable';
 
@@ -13,6 +14,10 @@ const routers = [
   {
     path: '/login',
     component: Login,
+  },
+  {
+    path: '/create',
+    component: CreateReview,
   },
 ];
 

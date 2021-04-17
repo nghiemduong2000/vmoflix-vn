@@ -6,7 +6,6 @@ export const getAdminApi = async () => {
 };
 
 export const authApi = async ({ loginID, password }) => {
-  console.log('hello');
   const promise = await axios.post(
     '/api/admin/auth',
     { loginID, password },

@@ -6,7 +6,7 @@ const AUTH_ERROR = 'admin/AUTH_ERROR';
 
 // Login
 const LOGIN = 'admin/LOGIN';
-const LOGIN_SUCSESS = 'admin/LOGIN_FAIL';
+const LOGIN_SUCCESS = 'admin/LOGIN_SUCCESS';
 const LOGIN_FAIL = 'admin/LOGIN_FAIL';
 
 // Logout
@@ -19,7 +19,7 @@ const types = {
   ADMIN_LOADED,
   AUTH_ERROR,
   LOGIN,
-  LOGIN_SUCSESS,
+  LOGIN_SUCCESS,
   LOGIN_FAIL,
   LOGOUT,
   LOGOUT_SUCCESS,

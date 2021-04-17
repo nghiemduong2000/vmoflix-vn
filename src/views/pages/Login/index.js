@@ -53,7 +53,7 @@ const Login = () => {
             <Link to='/'>
               <img
                 className='h-4.5rem'
-                src='https://res.cloudinary.com/nghiemduong2000/image/upload/v1618366203/Review%20Film%20Project/base/VMOFLIX-02_cd79e3.png'
+                src='https://res.cloudinary.com/nghiemduong2000/image/upload/v1618458158/Review%20Film%20Project/base/VMOFLIX-02-02_bpjidv.png'
                 alt='Logo'
               />
             </Link>
@@ -75,7 +75,7 @@ const Login = () => {
               onChange={(e) => setLoginID(e.target.value)}
             />
             <input
-              type='text'
+              type='password'
               className='login__form-input'
               placeholder='Mật khẩu'
               onChange={(e) => setPassword(e.target.value)}
