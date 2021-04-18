@@ -17,8 +17,8 @@ const DetailReview = () => {
       <Navbar />
       <>
         <DetailReviewBanner currentFilm={currentFilm} />
-        <div className='detailReview__body w-100rem mx-auto mt-4rem'>
-          <div className='detailReview__info flex justify-between mb-4rem text-white text-22'>
+        <div className='detailReview__body w-4/5 2xl:w-100rem mx-auto mt-4rem'>
+          <div className='detailReview__info flex justify-between mb-4rem text-white text-22 flex-wrap'>
             <span className='detailReview__info-author'>
               <strong>Tác giả:</strong>
               {` ${currentFilm.author}`}

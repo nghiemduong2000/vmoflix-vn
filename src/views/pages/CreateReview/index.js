@@ -80,11 +80,13 @@ const CreateReview = () => {
       </div>
       <form
         onSubmit={handleSubmit}
-        className='createReview__form z-1 bg-black-body bg-opacity-80 p-24 flex flex-col mt-10rem mb-10rem w-90rem'
+        className='createReview__form z-1 bg-black-body bg-opacity-80 py-6 px-4 sm:py-24 sm:px-24 flex flex-col mt-10rem mb-10rem w-11/12 lg:w-90rem'
       >
-        <h3 className='text-30 text-white font-bold mb-10'>Tạo bài viết</h3>
+        <h3 className='text-24 sm:text-30 text-white font-bold mb-4 sm:mb-10'>
+          Tạo bài viết
+        </h3>
         {!error ? null : (
-          <div className='mb-8 border-2 border-red-primary rounded-lg text-18 py-4 px-6 text-red-primary'>
+          <div className='mb-8 border-2 border-red-primary rounded-lg text-16 py-4 px-6 text-red-primary'>
             {error}
           </div>
         )}

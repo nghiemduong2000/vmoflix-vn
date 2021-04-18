@@ -1,7 +1,7 @@
 @import 'assets/styles/theme/mixin';
 
 .banner {
-  @apply overflow-hidden relative h-screen;
+  @apply overflow-hidden relative h-56.25vw;
   &:hover {
     .banner__slider-control {
       @apply opacity-100 visible;
@@ -50,15 +50,15 @@
       }
     }
     &-indicators {
-      @apply m-0 p-0 flex absolute bottom-2rem left-1/2 transform -translate-x-1/2;
+      @apply m-0 p-0 flex absolute bottom-10rem left-1/2 transform -translate-x-1/2;
       @include respond(phone) {
-        @apply bottom-1rem;
+        @apply bottom-5rem;
       }
       @include respond(md-desktop) {
-        @apply bottom-4rem;
+        @apply bottom-30rem;
       }
       @include respond(big-desktop) {
-        @apply bottom-14rem;
+        @apply bottom-30rem;
       }
       .banner__slider-control-dot {
         @apply cursor-pointer list-none;

@@ -37,6 +37,27 @@ const listProcess = (data, numItemPerList) => {
 };
 
 const FilmListingsByGenre = (props) => {
+  let numItemPerList;
+  let margin;
+  if (window.innerWidth >= 1700) {
+    numItemPerList = 9;
+    margin = '25px';
+  } else if (window.innerWidth >= 1536) {
+    numItemPerList = 8;
+    margin = '25px';
+  } else if (window.innerWidth >= 1280) {
+    numItemPerList = 7;
+    margin = '15px';
+  } else if (window.innerWidth >= 1024) {
+    numItemPerList = 6;
+    margin = '5px';
+  } else if (window.innerWidth >= 768) {
+    numItemPerList = 5;
+    margin = '5px';
+  } else if (window.innerWidth >= 360) {
+    numItemPerList = 3;
+    margin = '5px';
+  }
   const { genre } = props;
   const films = useSelector((state) => filmsSelectors.films(state)).toJS();
   const filmsFilter = films.filter((film) => {
@@ -45,7 +66,7 @@ const FilmListingsByGenre = (props) => {
     }
     return film.genre === genre;
   });
-  const listFilmsProcessed = listProcess(filmsFilter, 9);
+  const listFilmsProcessed = listProcess(filmsFilter, numItemPerList);
   const numItems = listFilmsProcessed.length;
 
   const [firstNext, setFirstNext] = useState(false);
@@ -88,15 +109,15 @@ const FilmListingsByGenre = (props) => {
 
   return (
     <div
-      className={`filmListingsByGenre mt-4 relative ${
+      className={`filmListingsByGenre lg:mt-4 relative ${
         genre === 'all' ? 'bg-listFilmAll' : ''
       }`}
       {...handlers(slide)}
     >
-      <h3 className='filmListingsByGenre__title text-30 text-white font-bold mb-2 capitalize absolute top-0 left-32'>
+      <h3 className='filmListingsByGenre__title text-18 md:text-24 lg:text-26 xl:text-30 text-white font-bold mb-2 capitalize absolute top-0 left-4%'>
         {genre}
       </h3>
-      <div className='overflow-x-hidden pb-16 pt-5rem pl-32 flex w-full'>
+      <div className='overflow-x-hidden xl:pb-16 py-3rem md:py-4rem lg:py-4.5rem xl:py-5rem pl-4% flex w-full'>
         <span
           className={`filmListingsByGenre__control previous transition-all ${
             firstNext ? '' : 'opacity-0 invisible'
@@ -123,6 +144,8 @@ const FilmListingsByGenre = (props) => {
           {listFilmsProcessed.map((list, index) => {
             return (
               <List
+                numItemPerList={numItemPerList}
+                margin={margin}
                 key={index}
                 films={list}
                 order={getOrder({ index, pos: state.pos })}

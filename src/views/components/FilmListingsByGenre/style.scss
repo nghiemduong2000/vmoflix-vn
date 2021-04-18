@@ -1,10 +1,12 @@
+@import 'assets/styles/theme/mixin';
+
 .filmListingsByGenre {
   &__list {
     &::-webkit-scrollbar {
     }
   }
   &__control {
-    @apply absolute h-12rem top-1/2 transform -translate-y-1/2 w-6rem z-1 flex justify-center items-center bg-black-body bg-opacity-50 transition-all duration-600 cursor-pointer;
+    @apply absolute h-8rem sm:h-12rem top-1/2 transform -translate-y-1/2 w-3rem sm:w-6rem z-1 flex justify-center items-center bg-black-body bg-opacity-50 transition-all duration-600 cursor-pointer;
     & > svg {
       @apply text-40 text-white transition-all duration-200;
     }

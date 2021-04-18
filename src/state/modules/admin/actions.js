@@ -4,7 +4,7 @@ import { call, put, takeEvery } from 'redux-saga/effects';
 import { errorActions } from '../error';
 import types from './types';
 
-const { returnErrors, clearErrors } = errorActions;
+const { getErrors, clearErrors } = errorActions;
 
 //= =============== ACTIONS ===============//
 // Action Load Admin
@@ -36,7 +36,13 @@ function* loadAdminSaga() {
     const res = yield call(getAdminApi);
     yield put(adminLoaded(res.data));
   } catch (err) {
-    yield put(returnErrors(err.response.data, err.response.status, null));
+    yield put(
+      getErrors({
+        msg: err.response.data,
+        status: err.response.status,
+        id: null,
+      }),
+    );
     yield put(authError());
   }
 }
@@ -47,8 +53,13 @@ function* loginSaga(action) {
     yield put(loginSuccess(res.data));
     yield put(clearErrors());
   } catch (err) {
+    console.log(err);
     yield put(
-      returnErrors(err.response.data, err.response.status, 'LOGIN_FAIL'),
+      getErrors({
+        msg: err.response.data,
+        status: err.response.status,
+        id: 'LOGIN_FAIL',
+      }),
     );
     yield put(loginFail());
   }

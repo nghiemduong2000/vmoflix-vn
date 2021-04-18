@@ -103,7 +103,7 @@ const Banner = (props) => {
                     src={bannerFilm}
                     alt='banner'
                   />
-                  <div className='opacity-0 banner__slider-item-over flex flex-col justify-end bg-black absolute w-full h-full top-0 bg-opacity-60 pl-8rem pb-24rem transition duration-300 group-hover:opacity-100'>
+                  <div className='opacity-0 banner__slider-item-over flex-col justify-end bg-black absolute w-full h-full top-0 bg-opacity-60 pl-8rem pb-35rem transition duration-300 group-hover:opacity-100 hidden xl:flex'>
                     <h2 className='text-56 text-white font-bold w-80rem leading-65 mb-6'>
                       {film.title}
                     </h2>
@@ -116,7 +116,7 @@ const Banner = (props) => {
             })}
           </CarouselContainer>
         </div>
-        <div className='banner__slider-control'>
+        <div className='banner__slider-control hidden xl:block'>
           <button
             className='banner__slider-control-previous'
             onClick={() => slide(PREV)}

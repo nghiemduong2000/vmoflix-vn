@@ -16,6 +16,7 @@ const Login = () => {
   const [loginID, setLoginID] = useState('');
   const [password, setPassword] = useState('');
   const [msg, setMsg] = useState(null);
+  const [validate, setValidate] = useState('');
 
   useEffect(() => {
     if (error.id === 'LOGIN_FAIL') {
@@ -32,7 +33,10 @@ const Login = () => {
         loginID,
         password,
       };
+      setValidate('');
       dispatch(adminActions.login(dataAdmin));
+    } else {
+      setValidate('Điền tất cả các ô trống');
     }
   };
 
@@ -42,17 +46,18 @@ const Login = () => {
         <Redirect to='/' />
       ) : (
         <div className='login bg-black h-screen flex items-center justify-center'>
-          <div className='login__background bg-cover overflow-hidden h-full opacity-50 absolute'>
+          <div className='login__background h-full opacity-50 absolute'>
             <img
               src='https://assets.nflxext.com/ffe/siteui/vlv3/92bb3a0b-7e91-40a0-b27b-f2c3ac9ef6e4/b9637692-6620-40e8-ad9d-9ccbd5ef952b/VN-vi-20210322-popsignuptwoweeks-perspective_alpha_website_small.jpg'
               srcSet='https://assets.nflxext.com/ffe/siteui/vlv3/92bb3a0b-7e91-40a0-b27b-f2c3ac9ef6e4/b9637692-6620-40e8-ad9d-9ccbd5ef952b/VN-vi-20210322-popsignuptwoweeks-perspective_alpha_website_small.jpg 1000w, https://assets.nflxext.com/ffe/siteui/vlv3/92bb3a0b-7e91-40a0-b27b-f2c3ac9ef6e4/b9637692-6620-40e8-ad9d-9ccbd5ef952b/VN-vi-20210322-popsignuptwoweeks-perspective_alpha_website_medium.jpg 1500w, https://assets.nflxext.com/ffe/siteui/vlv3/92bb3a0b-7e91-40a0-b27b-f2c3ac9ef6e4/b9637692-6620-40e8-ad9d-9ccbd5ef952b/VN-vi-20210322-popsignuptwoweeks-perspective_alpha_website_large.jpg 1800w'
               alt=''
+              className='object-cover w-full h-full'
             />
           </div>
-          <div className='login__navbar absolute top-0 h-9rem px-6rem flex items-center w-full'>
+          <div className='login__navbar absolute top-0 h-9rem px-4% flex items-center justify-center sm:justify-start w-full'>
             <Link to='/'>
               <img
-                className='h-4.5rem'
+                className='h-4rem lg:h-4.5rem'
                 src='https://res.cloudinary.com/nghiemduong2000/image/upload/v1618458158/Review%20Film%20Project/base/VMOFLIX-02-02_bpjidv.png'
                 alt='Logo'
               />
@@ -60,12 +65,17 @@ const Login = () => {
           </div>
           <form
             onSubmit={handleSubmit}
-            className='login__form z-1 bg-black bg-opacity-80 p-24 flex flex-col'
+            className='login__form z-1 bg-black bg-opacity-80 px-8 py-14 sm:px-24 sm:py-24 flex flex-col'
           >
             <h3 className='text-30 text-white font-bold mb-10'>Đăng nhập</h3>
             {!msg ? null : (
               <div className='bg-red-100 mb-8 border border-red-500 rounded-lg text-18 py-4 px-6 text-red-500'>
                 {msg}
+              </div>
+            )}
+            {!validate ? null : (
+              <div className='bg-red-100 mb-8 border border-red-500 rounded-lg text-18 py-4 px-6 text-red-500'>
+                {validate}
               </div>
             )}
             <input

@@ -30,20 +30,20 @@ const Navbar = (props) => {
         scrolling ? 'bg-black-body' : 'bg-transparent'
       }`}
     >
-      <div className='navbar h-6.8rem px-6rem flex items-center justify-between  w-full bg-navbar'>
+      <div className='navbar h-4.1rem lg:h-6.8rem px-4% flex items-center justify-between  w-full bg-navbar'>
         <Link to='/'>
           <img
             // eslint-disable-next-line max-len
             src='https://res.cloudinary.com/nghiemduong2000/image/upload/v1618458158/Review%20Film%20Project/base/VMOFLIX-02-02_bpjidv.png'
             alt='Logo'
-            className='h-2.5rem'
+            className='h-1.5rem lg:h-2.5rem'
           />
         </Link>
         <div className='navbar__right flex'>
           {!isAuthenticated ? (
             <Link
               to='/login'
-              className='navbar__btn bg-red-primary hover:bg-red-primary-d text-16 px-7 py-3'
+              className='navbar__btn bg-red-primary hover:bg-red-primary-d text-14 lg:text-16 px-3 py-1 lg:px-7 lg:py-3'
             >
               Đăng nhập
             </Link>
@@ -51,18 +51,18 @@ const Navbar = (props) => {
             <div className='flex items-center'>
               <Link
                 to='/create'
-                className={`flex items-center text-28 mr-12 ${
+                className={`flex items-center text-18 lg:text-28 mr-6 lg:mr-12 ${
                   pathname === '/create' ? 'text-red-primary' : 'text-white'
                 }`}
               >
                 <RiEdit2Fill />
               </Link>
-              <span className='text-white text-18 font-bold mr-8'>
+              <span className='text-white text-16 lg:text-18 font-bold mr-6 lg:mr-8'>
                 {admin.get('loginID').toUpperCase()}
               </span>
               <button
                 type='button'
-                className='navbar__btn bg-red-primary hover:bg-red-primary-d text-16 px-7 py-3'
+                className='navbar__btn bg-red-primary hover:bg-red-primary-d text-14 lg:text-16 px-3 py-1 lg:px-7 lg:py-3'
                 onClick={() => dispatch(adminActions.logout())}
               >
                 Đăng xuất

@@ -20,17 +20,19 @@ const initialState = fromJS({
   id: null,
 });
 
-const getErrorSuccess = (state, action) =>
-  state
+const getErrorsSuccess = (state, action) => {
+  console.log('hello');
+  return state
     .set('msg', fromJS(action.payload.msg))
     .set('status', action.payload.status)
     .set('id', action.payload.id);
+};
 const clearErrorsSuccess = (state) =>
   state.set('msg', {}).set('status', null).set('id', null);
 
 const reducer = handleActions(
   {
-    [types.GET_ERRORS_SUCCESS]: getErrorSuccess,
+    [types.GET_ERRORS_SUCCESS]: getErrorsSuccess,
     [types.CLEAR_ERRORS_SUCCESS]: clearErrorsSuccess,
   },
   initialState,
