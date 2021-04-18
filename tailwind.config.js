@@ -27,8 +27,8 @@ module.exports = {
           navbar: '#0c0c0c',
         },
         red: {
-          primary: '#E53B13',
-          'primary-d': '#b32e0e',
+          primary: 'rgb(229, 9, 20)',
+          'primary-d': 'rgb(173, 0, 9)',
         },
         gray: {
           primary: '#8c8c8c',
