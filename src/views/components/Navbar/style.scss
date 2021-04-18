@@ -1,8 +1,10 @@
-.navbar {
-  &__right {
-    .navbar__btn {
-      @apply text-white;
-      @apply rounded-md;
+.navbar__wrap {
+  .navbar {
+    &__right {
+      .navbar__btn {
+        @apply text-white;
+        @apply rounded-md;
+      }
     }
   }
 }

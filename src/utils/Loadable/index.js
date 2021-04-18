@@ -3,7 +3,7 @@ import './style.scss';
 
 export const Loading = () => {
   return (
-    <div className='loadable'>
+    <div className='loadable h-screen'>
       <div className='scaling-squares-spinner'>
         <div className='square' />
         <div className='square' />

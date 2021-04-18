@@ -91,10 +91,11 @@ const Banner = (props) => {
               const { _id, bannerFilm } = film;
               return (
                 <Link
-                  to='/'
-                  className={`group relative flex flex-carousel order-${getOrder(
-                    { index, pos: state.pos },
-                  )}`}
+                  to={`/${film._id}`}
+                  className='group relative flex flex-carousel'
+                  style={{
+                    order: getOrder({ index, pos: state.pos }),
+                  }}
                   key={_id}
                 >
                   <img
@@ -102,7 +103,7 @@ const Banner = (props) => {
                     src={bannerFilm}
                     alt='banner'
                   />
-                  <div className='opacity-0 banner__slider-item-over flex flex-col justify-end bg-black absolute w-full h-full top-0 bg-opacity-60 pl-8rem pb-6rem transition duration-300 group-hover:opacity-100'>
+                  <div className='opacity-0 banner__slider-item-over flex flex-col justify-end bg-black absolute w-full h-full top-0 bg-opacity-60 pl-8rem pb-24rem transition duration-300 group-hover:opacity-100'>
                     <h2 className='text-56 text-white font-bold w-80rem leading-65 mb-6'>
                       {film.title}
                     </h2>

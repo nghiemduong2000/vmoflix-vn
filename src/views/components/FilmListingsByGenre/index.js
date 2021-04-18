@@ -87,7 +87,12 @@ const FilmListingsByGenre = (props) => {
   };
 
   return (
-    <div className='filmListingsByGenre mt-4 relative' {...handlers(slide)}>
+    <div
+      className={`filmListingsByGenre mt-4 relative ${
+        genre === 'all' ? 'bg-listFilmAll' : ''
+      }`}
+      {...handlers(slide)}
+    >
       <h3 className='filmListingsByGenre__title text-30 text-white font-bold mb-2 capitalize absolute top-0 left-32'>
         {genre}
       </h3>
@@ -120,7 +125,8 @@ const FilmListingsByGenre = (props) => {
               <List
                 key={index}
                 films={list}
-                className={`order-${getOrder({ index, pos: state.pos })} ${
+                order={getOrder({ index, pos: state.pos })}
+                className={`${
                   listFilmsProcessed.length === 1
                     ? ''
                     : firstNext

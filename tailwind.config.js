@@ -1,3 +1,4 @@
+/* eslint-disable max-len */
 module.exports = {
   purge: ['./src/**/*.{js,jsx,ts,tsx}', './public/index.html'],
   darkMode: false, // or 'media' or 'class'
@@ -40,6 +41,7 @@ module.exports = {
         '2rem': '2rem',
         '2.5rem': '2.5rem',
         '3rem': '3rem',
+        '3.5rem': '3.5rem',
         '4rem': '4rem',
         '4.5rem': '4.5rem',
         '5rem': '5rem',
@@ -114,6 +116,12 @@ module.exports = {
       transitionDuration: {
         '400': '400ms',
         '600': '600ms',
+        '800': '800ms',
+      },
+      backgroundImage: {
+        navbar: 'linear-gradient(to bottom,rgba(0,0,0,.7) 10%,rgba(0,0,0,0))',
+        listFilmAll:
+          'linear-gradient(to bottom,rgba(20,20,20,0) 0,rgba(20,20,20,.2) 10%,rgba(20,20,20,.4) 15%,rgba(20,20,20,0.8) 25%,#141414 45%,#141414 100%)',
       },
     },
   },
