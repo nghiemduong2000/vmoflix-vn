@@ -1,11 +1,18 @@
 import axios from 'axios';
 
+export const getAmountAdminApi = async () => {
+  const promise = await axios.get('/api/admin/amount', {
+    withCredentials: true,
+  });
+  return promise;
+};
+
 export const getAdminApi = async () => {
   const promise = await axios.get('/api/admin', { withCredentials: true });
   return promise;
 };
 
-export const authApi = async ({ loginID, password }) => {
+export const authAdminApi = async ({ loginID, password }) => {
   const promise = await axios.post(
     '/api/admin/auth',
     { loginID, password },
@@ -16,7 +23,7 @@ export const authApi = async ({ loginID, password }) => {
   return promise;
 };
 
-export const logoutApi = async () => {
+export const logoutAdminApi = async () => {
   const promise = await axios.get('/api/admin/deleteCookie', {
     withCredentials: true,
   });

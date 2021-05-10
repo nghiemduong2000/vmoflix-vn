@@ -1,10 +1,7 @@
 @import '../../assets/styles/theme/_variables';
 
 .loadable {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 570px;
+  @apply w-full h-35rem flex justify-center items-center;
   .scaling-squares-spinner,
   .scaling-squares-spinner * {
     box-sizing: border-box;

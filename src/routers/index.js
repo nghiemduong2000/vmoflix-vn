@@ -1,11 +1,7 @@
-import CreateReview from 'views/pages/CreateReview';
-import DetailReview from 'views/pages/DetailReview';
+import CreateEditReview from 'views/pages/CreateEditFilm';
 import HomePage from 'views/pages/Home';
-import Login from 'views/pages/Login';
-
-// const HomePage = Loadable(() =>
-//   import(/* webpackChunkName: "js/home" */ '@Views/pages/Home'),
-// );
+import SearchFilms from 'views/pages/SearchFilms';
+import User from 'views/pages/User';
 
 const routers = [
   {
@@ -13,16 +9,24 @@ const routers = [
     component: HomePage,
   },
   {
-    path: '/login',
-    component: Login,
+    path: '/user/account',
+    component: User,
   },
   {
     path: '/create',
-    component: CreateReview,
+    component: CreateEditReview,
   },
   {
-    path: '/:id',
-    component: DetailReview,
+    path: '/edit/:id',
+    component: CreateEditReview,
+  },
+  {
+    path: '/search',
+    component: SearchFilms,
+  },
+  {
+    path: '/category',
+    component: SearchFilms,
   },
 ];
 

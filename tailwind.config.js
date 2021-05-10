@@ -5,24 +5,13 @@ module.exports = {
   theme: {
     extend: {
       colors: {
-        orange: {
-          DEFAULT: '#F37001',
-          hard: '#c95c00',
-          md: '#ffa85e',
-          l: '#facb9d',
-        },
         white: {
           DEFAULT: '#FFFFFF',
           custom: '#F8F7F9',
         },
-        yellow: {
-          custom: '#ffd04f',
-        },
-        purple: {
-          custom: '#7f6594',
-        },
         black: {
           DEFAULT: '#000',
+          light: 'rgb(38, 37, 37)',
           body: '#141414',
           navbar: '#0c0c0c',
         },
@@ -31,11 +20,20 @@ module.exports = {
           'primary-d': 'rgb(173, 0, 9)',
         },
         gray: {
+          'primary-l': 'rgb(163, 163, 163)',
           primary: '#8c8c8c',
           'primary-d': '#333',
         },
+        blue: {
+          facebook: 'rgb(44, 119, 242)',
+          'facebook-d': 'rgb(32, 86, 176)',
+        },
       },
       spacing: {
+        '0.25rem': '0.25rem',
+        '0.4rem': '0.4rem',
+        '0.6rem': '0.6rem',
+        '0.8rem': '0.8rem',
         '1rem': '1rem',
         '1.5rem': '1.5rem',
         '2rem': '2rem',
@@ -54,6 +52,7 @@ module.exports = {
         '9rem': '9rem',
         '10rem': '10rem',
         '12rem': '12rem',
+        '13rem': '13rem',
         '14rem': '14rem',
         '16rem': '16rem',
         '18rem': '18rem',
@@ -74,9 +73,12 @@ module.exports = {
         '4%': '4%',
         '1/10': '10%',
         '9.74%': '9.74%',
+        '3/20': '15%',
         '22%': '22%',
         '85%': '85%',
+        '56.25%': '56.25%',
         '56.25vw': '56.25vw',
+        unset: 'unset',
       },
       fontSize: {
         14: '1.4rem',
@@ -91,13 +93,18 @@ module.exports = {
         40: '4rem',
         50: '5rem',
         56: '5.6rem',
+        60: '6rem',
+        70: '7rem',
+        80: '8rem',
+        90: '9rem',
         100: '10rem',
       },
       boxShadow: {
-        'inner-md': 'inset 0 2px 8px 0 rgba(173, 80, 0, 0.8)',
+        'inner-md': 'inset 0 0 8px 0 rgba(0, 0, 0, 0.7)',
         custom: '0px 2px 8px 3px rgba(0, 0, 0, 0.2)',
       },
       lineHeight: {
+        20: '2rem',
         100: '10rem',
         50: '5rem',
         40: '4rem',
@@ -127,6 +134,24 @@ module.exports = {
         navbar: 'linear-gradient(to bottom,rgba(0,0,0,.7) 10%,rgba(0,0,0,0))',
         listFilmAll:
           'linear-gradient(to bottom,rgba(20,20,20,0) 0,rgba(20,20,20,.2) 10%,rgba(20,20,20,.4) 15%,rgba(20,20,20,0.8) 25%,#141414 45%,#141414 100%)',
+        coverModalFilm:
+          'linear-gradient(to top,rgb(20, 20, 20),transparent 50%)',
+      },
+      padding: {
+        square: '50% 0',
+        film: '70% 0',
+        previewFilm: '30% 0',
+      },
+      transitionProperty: {
+        width: 'width',
+      },
+      rotate: {
+        '-135': '-135deg',
+        '135': '135deg',
+        '360': '360deg',
+      },
+      borderWidth: {
+        '2rem': '2rem',
       },
     },
   },
@@ -136,8 +161,11 @@ module.exports = {
       margin: ['first', 'last'],
       zIndex: ['hover'],
       transformOrigin: ['first', 'last'],
-      visibility: ['first'],
+      visibility: ['first', 'hover', 'group-hover'],
       opacity: ['first'],
+      width: ['focus'],
+      rotate: ['group-hover'],
+      backgroundColor: ['disabled'],
     },
   },
   plugins: [],

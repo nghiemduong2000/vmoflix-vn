@@ -9,8 +9,9 @@ import PropTypes from 'prop-types';
 import React, { useState } from 'react';
 import { FiChevronLeft, FiChevronRight } from 'react-icons/fi';
 import { useSelector } from 'react-redux';
-import { filmsSelectors } from 'state/modules/film';
+import { userSelectors } from 'state/modules/user';
 import handlers from 'utils/handlersSwipe';
+import responsive from 'utils/responsive';
 import CarouselContainer from '../CarouselContainer';
 import List from './components/List';
 import './style.scss';
@@ -37,35 +38,13 @@ const listProcess = (data, numItemPerList) => {
 };
 
 const FilmListingsByGenre = (props) => {
-  let numItemPerList;
-  let margin;
-  if (window.innerWidth >= 1700) {
-    numItemPerList = 9;
-    margin = '25px';
-  } else if (window.innerWidth >= 1536) {
-    numItemPerList = 8;
-    margin = '25px';
-  } else if (window.innerWidth >= 1280) {
-    numItemPerList = 7;
-    margin = '15px';
-  } else if (window.innerWidth >= 1024) {
-    numItemPerList = 6;
-    margin = '5px';
-  } else if (window.innerWidth >= 768) {
-    numItemPerList = 5;
-    margin = '5px';
-  } else if (window.innerWidth >= 360) {
-    numItemPerList = 3;
-    margin = '5px';
-  }
-  const { genre } = props;
-  const films = useSelector((state) => filmsSelectors.films(state)).toJS();
-  const filmsFilter = films.filter((film) => {
-    if (genre === 'all') {
-      return true;
-    }
-    return film.genre === genre;
-  });
+  const { numItemPerList, margin } = responsive();
+  const { genre, filmsFilter } = props;
+  const isAuthenticated = useSelector((state) =>
+    userSelectors.isAuthenticated(state),
+  );
+  const user = useSelector((state) => userSelectors.user(state));
+
   const listFilmsProcessed = listProcess(filmsFilter, numItemPerList);
   const numItems = listFilmsProcessed.length;
 
@@ -110,7 +89,15 @@ const FilmListingsByGenre = (props) => {
   return (
     <div
       className={`filmListingsByGenre lg:mt-4 relative ${
-        genre === 'all' ? 'bg-listFilmAll' : ''
+        genre === 'recent'
+          ? 'bg-listFilmAll'
+          : genre === 'all'
+          ? isAuthenticated
+            ? user.get('history').toJS().length === 0
+              ? 'bg-listFilmAll'
+              : null
+            : 'bg-listFilmAll'
+          : null
       }`}
       {...handlers(slide)}
     >
@@ -167,6 +154,7 @@ const FilmListingsByGenre = (props) => {
 
 FilmListingsByGenre.propTypes = {
   genre: PropTypes.string.isRequired,
+  filmsFilter: PropTypes.array.isRequired,
 };
 
-export default FilmListingsByGenre;
+export default React.memo(FilmListingsByGenre);

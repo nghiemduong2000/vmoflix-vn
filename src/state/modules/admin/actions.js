@@ -1,4 +1,4 @@
-import { authApi, getAdminApi, logoutApi } from 'apis/adminApi';
+import { authAdminApi, getAdminApi, logoutAdminApi } from 'apis/adminApi';
 import { createAction } from 'redux-actions';
 import { call, put, takeEvery } from 'redux-saga/effects';
 import { errorActions } from '../error';
@@ -49,7 +49,7 @@ function* loadAdminSaga() {
 
 function* loginSaga(action) {
   try {
-    const res = yield call(authApi, action.payload);
+    const res = yield call(authAdminApi, action.payload);
     yield put(loginSuccess(res.data));
     yield put(clearErrors());
   } catch (err) {
@@ -67,7 +67,7 @@ function* loginSaga(action) {
 
 function* logoutSaga() {
   try {
-    yield call(logoutApi);
+    yield call(logoutAdminApi);
     yield put(logoutSuccess());
   } catch (err) {
     console.log(err);

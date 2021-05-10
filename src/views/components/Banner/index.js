@@ -1,3 +1,4 @@
+/* eslint-disable indent */
 /* eslint-disable react/jsx-props-no-spreading */
 /* eslint-disable max-lines */
 /* eslint-disable max-len */
@@ -5,6 +6,7 @@
 /* eslint-disable jsx-a11y/no-noninteractive-element-interactions */
 /* eslint-disable react/no-array-index-key */
 import { NEXT, PREV } from 'assets/variables/dir';
+import PropTypes from 'prop-types';
 import React, { useEffect, useRef, useState } from 'react';
 import {
   FaChevronLeft,
@@ -12,17 +14,17 @@ import {
   FaRegCircle,
   FaRegDotCircle,
 } from 'react-icons/fa';
-import { useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
-import { filmsSelectors } from 'state/modules/film';
 import handlers from 'utils/handlersSwipe';
 import CarouselContainer from '../CarouselContainer';
+import RatingStar from '../RatingStar';
+import ReadMore from '../ReadMore/ReadMore';
 import './style.scss';
 
 const Banner = (props) => {
-  const timeInterval = 5000;
+  const { films } = props;
+  const timeInterval = 3000;
   const debounce = useRef(null);
-  const films = useSelector((state) => filmsSelectors.films(state)).toJS();
   const filmsFilter = films.slice(0, 4);
   const numItems = filmsFilter.length;
 
@@ -91,8 +93,18 @@ const Banner = (props) => {
               const { _id, bannerFilm } = film;
               return (
                 <Link
-                  to={`/${film._id}`}
+                  to={`/film/${_id}`}
                   className='group relative flex flex-carousel'
+                  onMouseOver={() => {
+                    if (debounce.current) {
+                      clearInterval(debounce.current);
+                    }
+                  }}
+                  onMouseOut={() => {
+                    debounce.current = setInterval(() => {
+                      slide(NEXT);
+                    }, timeInterval);
+                  }}
                   style={{
                     order: getOrder({ index, pos: state.pos }),
                   }}
@@ -104,12 +116,26 @@ const Banner = (props) => {
                     alt='banner'
                   />
                   <div className='opacity-0 banner__slider-item-over flex-col justify-end bg-black absolute w-full h-full top-0 bg-opacity-60 pl-8rem pb-35rem transition duration-300 group-hover:opacity-100 hidden xl:flex'>
-                    <h2 className='text-56 text-white font-bold w-80rem leading-65 mb-6'>
+                    <h2 className='text-56 text-white font-bold w-80rem leading-65 mb-4'>
                       {film.title}
                     </h2>
-                    <p className='text-24 text-white w-100rem'>
-                      {film.description}
-                    </p>
+                    <div className='mb-8'>
+                      <RatingStar
+                        className='banner__slider-rating'
+                        ratingPercent={
+                          film.reviews.length === 0
+                            ? 0
+                            : (film.reviews.reduce(
+                                (average, review) => average + review.rating,
+                                0,
+                              ) /
+                                film.reviews.length /
+                                5) *
+                              100
+                        }
+                      />
+                    </div>
+                    <ReadMore text={film.description} />
                   </div>
                 </Link>
               );
@@ -152,4 +178,9 @@ const Banner = (props) => {
     </>
   );
 };
+
+Banner.propTypes = {
+  films: PropTypes.array.isRequired,
+};
+
 export default Banner;

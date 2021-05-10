@@ -1,7 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
-import { BrowserRouter } from 'react-router-dom';
 import './assets/libs/tailwind.css';
 import * as serviceWorker from './serviceWorker';
 import configureStore from './state/configureStore';
@@ -15,9 +14,7 @@ store.runSaga(rootSaga);
 
 ReactDOM.render(
   <Provider store={store}>
-    <BrowserRouter>
-      <App />
-    </BrowserRouter>
+    <App />
   </Provider>,
   document.getElementById('root'),
 );

@@ -2,8 +2,33 @@ import axios from 'axios';
 
 const path = '/api/films';
 
-export const getFilmApi = async () => {
-  const promise = await axios.get(path, { withCredentials: true });
+export const getAFilmApi = async (id) => {
+  const promise = await axios.get(`${path}?filmId=${id}`, {
+    withCredentials: true,
+  });
+  return promise;
+};
+
+export const getAFilmAndRelated = async (id) => {
+  const promise = await axios.get(`${path}/related?filmId=${id}`, {
+    withCredentials: true,
+  });
+  return promise;
+};
+
+export const getFilmsRecentApi = async (history) => {
+  const promise = await axios.post(
+    `${path}/recent`,
+    { history },
+    { withCredentials: true },
+  );
+  return promise;
+};
+
+export const getFilmsFilterApi = async (filter) => {
+  const promise = await axios.get(`${path}/filter${filter}`, {
+    withCredentials: true,
+  });
   return promise;
 };
 

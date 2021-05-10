@@ -21,7 +21,6 @@ const initialState = fromJS({
 });
 
 const getErrorsSuccess = (state, action) => {
-  console.log('hello');
   return state
     .set('msg', fromJS(action.payload.msg))
     .set('status', action.payload.status)

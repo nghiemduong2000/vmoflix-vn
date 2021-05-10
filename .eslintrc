@@ -37,8 +37,8 @@
     "jsx-a11y/mouse-events-have-key-events": "off",
     "jsx-a11y/no-static-element-interactions": "off",
     "jsx-quotes": ["warn", "prefer-single"],
-    "max-len": ["warn", 120],
-    "no-plusplus": ["error", { "allowForLoopAfterthoughts": true }],
+    "max-len": ["warn", 320],
+    "no-plusplus": "off",
     "no-return-assign": "off",
     "no-use-before-define": ["error", { "functions": false }],
     "object-curly-newline": [
@@ -63,10 +63,11 @@
     "jsx-a11y/label-has-for": "off",
     "no-underscore-dangle": "off",
     "react/forbid-prop-types": "off",
-    "max-lines": ["error", 200],
+    "max-lines": ["error", 500],
     "react/no-danger": "off",
     "no-restricted-globals": "off",
     "react-hooks/rules-of-hooks": "error",
-    "react-hooks/exhaustive-deps": "error"
+    "react-hooks/exhaustive-deps": "error",
+    "no-nested-ternary": "off"
   }
 }

@@ -9,6 +9,17 @@
   }
   &__slider {
     @apply flex h-full;
+    &-item-over {
+      .display-text-group {
+        @apply text-24 text-white w-100rem;
+      }
+    }
+    &-rating {
+      @apply text-26;
+      &:not(:last-child) {
+        @apply mr-0.6rem;
+      }
+    }
   }
   &__slider-control {
     @apply opacity-0 invisible transition-all duration-200;

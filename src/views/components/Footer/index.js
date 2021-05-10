@@ -15,12 +15,12 @@ const Footer = () => {
           <img
             src='https://res.cloudinary.com/nghiemduong2000/image/upload/v1618458158/Review%20Film%20Project/base/VMOFLIX-02-02_bpjidv.png'
             alt='logo'
-            className='w-8rem sm:w-3rem md:w-5rem ld:w-10rem mb-4'
+            className='w-8rem sm:w-8rem md:w-10rem ld:w-14rem mb-4'
           />
           <p className='text-14 sm:text-16 text-white text-center sm:text-left'>
-            Trang review, đánh giá phim chiếu rạp, tổng hợp giới thiệu phim hay,
-            cập nhật những thông tin điện ảnh Việt Nam và Thế Giới hàng đầu Việt
-            Nam
+            Trang xem phim trực tuyến hàng đầu Việt Nam, luôn cập nhật những
+            phim chiếu rạp hay nhất, mới nhất ở cả điện ảnh Việt Nam và Thế
+            Giới.
           </p>
         </div>
         <div className='footer__contact'>

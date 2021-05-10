@@ -23,4 +23,14 @@
       @apply left-0;
     }
   }
+  &__modalFilm {
+    &-main {
+      &-rating {
+        @apply text-24;
+        &:not(:last-child) {
+          @apply mr-0.6rem;
+        }
+      }
+    }
+  }
 }
