@@ -1,4 +1,4 @@
-![Logo VMOflix](https://res.cloudinary.com/nghiemduong2000/image/upload/v1618366203/Review%20Film%20Project/base/VMOFLIX-02_cd79e3.png)
+![Logo VMOflix](https://res.cloudinary.com/nghiemduong2000/image/upload/v1618458158/Review%20Film%20Project/base/VMOFLIX-02-02_bpjidv.png)
 
 # VMOflix - Trang review phim hàng đầu
 
