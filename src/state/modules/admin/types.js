@@ -13,6 +13,13 @@ const LOGIN_FAIL = 'admin/LOGIN_FAIL';
 const LOGOUT = 'admin/LOGOUT';
 const LOGOUT_SUCCESS = 'admin/LOGOUT_SUCCESS';
 
+// Update Image
+const UPDATE_ADMIN = 'admin/UPDATE_ADMIN';
+const UPDATE_ADMIN_SUCCESS = 'admin/UPDATE_ADMIN_SUCCESS';
+
+// Change Password
+const CHANGE_PASSWORD = 'admin/CHANGE_PASSWORD';
+
 const types = {
   LOAD_ADMIN,
   ADMIN_LOADING,
@@ -23,6 +30,9 @@ const types = {
   LOGIN_FAIL,
   LOGOUT,
   LOGOUT_SUCCESS,
+  CHANGE_PASSWORD,
+  UPDATE_ADMIN,
+  UPDATE_ADMIN_SUCCESS,
 };
 
 export default types;

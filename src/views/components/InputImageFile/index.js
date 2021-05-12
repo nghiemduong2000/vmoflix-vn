@@ -2,7 +2,6 @@
 /* eslint-disable no-nested-ternary */
 import PropTypes from 'prop-types';
 import React from 'react';
-import { MdRefresh } from 'react-icons/md';
 import './style.scss';
 
 const InputImageFile = (props) => {
@@ -14,8 +13,6 @@ const InputImageFile = (props) => {
     width,
     styleContainer,
     styleLabel,
-    valueDefault,
-    styleReset,
   } = props;
 
   const imagePreview = (param) => {
@@ -30,7 +27,6 @@ const InputImageFile = (props) => {
     const reader = new FileReader();
     reader.readAsDataURL(file);
     reader.onloadend = () => {
-      // setPreviewSource(reader.result);
       setState(reader.result);
     };
   };
@@ -53,14 +49,11 @@ const InputImageFile = (props) => {
             id={id}
             type='file'
             className='absolute left-0 z-negative1 opacity-0'
-            onChange={handleOnChange}
-            // value={value}
+            onChange={(e) => {
+              handleOnChange(e);
+            }}
           />
         </label>
-        <MdRefresh
-          className={`text-white cursor-pointer transform transition-all duration-600 hover:rotate-360 ease-in-out ${styleReset}`}
-          onClick={() => setState(valueDefault)}
-        />
       </div>
     </div>
   );
@@ -74,14 +67,11 @@ InputImageFile.propTypes = {
   width: PropTypes.string.isRequired,
   styleContainer: PropTypes.string,
   styleLabel: PropTypes.string,
-  valueDefault: PropTypes.string.isRequired,
-  styleReset: PropTypes.string,
 };
 
 InputImageFile.defaultProps = {
   styleContainer: '',
   styleLabel: '',
-  styleReset: '',
 };
 
 export default InputImageFile;

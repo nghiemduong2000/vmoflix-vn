@@ -31,6 +31,8 @@ const LOGOUT_SUCCESS = 'user/LOGOUT_SUCCESS';
 const UPDATE_USER = 'user/UPDATE_USER';
 const UPDATE_USER_SUCCESS = 'user/UPDATE_USER_SUCCESS';
 
+const CHANGE_PASSWORD = 'user/CHANGE_PASSWORD';
+
 const types = {
   LOAD_USER,
   USER_LOADING,
@@ -52,6 +54,7 @@ const types = {
   LOGOUT_SUCCESS,
   UPDATE_USER,
   UPDATE_USER_SUCCESS,
+  CHANGE_PASSWORD,
 };
 
 export default types;

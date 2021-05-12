@@ -14,7 +14,11 @@ const PrivateAdminRoute = ({ component: Component, ...rest }) => {
     <Route
       {...rest}
       component={(props) =>
-        isAuthenticated ? <Component {...props} /> : <Redirect to='/admin' />
+        isAuthenticated ? (
+          <Component {...props} trigger={rest.trigger} />
+        ) : (
+          <Redirect to='/admin' />
+        )
       }
     />
   );

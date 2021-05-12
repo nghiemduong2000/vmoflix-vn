@@ -57,7 +57,7 @@ const App = () => {
         <Switch>
           <Route exact path='/login' component={Login} />
           <Route path='/register' component={Login} />
-          <Route path='/film/:id' component={DetailFilm} />
+          <Route path='/film/:slug' component={DetailFilm} />
           <Route component={HaveNavbar} />
         </Switch>
         <Footer />

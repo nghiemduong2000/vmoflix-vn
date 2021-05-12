@@ -19,6 +19,10 @@ module.exports = {
           primary: 'rgb(229, 9, 20)',
           'primary-d': 'rgb(173, 0, 9)',
         },
+        orange: {
+          primary: 'rgb(243,112,1)',
+          'primary-d': 'rgb(207, 98, 6)',
+        },
         gray: {
           'primary-l': 'rgb(163, 163, 163)',
           primary: '#8c8c8c',

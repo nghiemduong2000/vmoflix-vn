@@ -95,7 +95,7 @@ const List = (props) => {
               />
             </div>
             <Link
-              to={`/film/${currentFilm._id}`}
+              to={`/film/${currentFilm.slug}`}
               className='bg-white hover:bg-opacity-70 rounded-lg text-20 2xl:text-24 text-black-body py-3 px-16 font-bold absolute left-4rem bottom-6rem'
               onClick={() => {
                 toggleModalFilm();
@@ -111,19 +111,20 @@ const List = (props) => {
               <span>{currentFilm.description}</span>
             </div>
             <div className='filmListingsByGenre__modalFilm-info-desc text-14 w-2/5'>
-              <p className='mb-4'>
+              <div className='mb-4'>
                 <span className='text-gray-primary'>Diễn viên:</span>
                 <span className='capitalize text-white'>
                   {currentFilm.actor
                     ? ` ${capitalizeFirstLetter(currentFilm.actor?.join(', '))}`
                     : ''}
                 </span>
-              </p>
-              <p>
+              </div>
+              <div>
                 <span className='text-gray-primary'>Thể loại:</span>
-                <span className='text-white'>
+                <ul className='text-white inline-block'>
+                  <>&nbsp;</>
                   {currentFilm.genre
-                    ? ` ${categories
+                    ? categories
                         .filter((item) => {
                           for (let i = 0; i < currentFilm.genre.length; i++) {
                             if (item.genre === currentFilm.genre[i]) {
@@ -132,11 +133,20 @@ const List = (props) => {
                           }
                           return false;
                         })
-                        .map((item) => item.vn)
-                        .join(', ')}`
-                    : ''}
-                </span>
-              </p>
+                        .map((item, index) => (
+                          <li className='inline-block' key={item._id}>
+                            {index === 0 ? '' : <>,&nbsp;</>}
+                            <Link
+                              to={`/category?genre=${item.genre}`}
+                              className='hover:underline'
+                            >
+                              {item.vn}
+                            </Link>
+                          </li>
+                        ))
+                    : null}
+                </ul>
+              </div>
             </div>
           </div>
         </div>

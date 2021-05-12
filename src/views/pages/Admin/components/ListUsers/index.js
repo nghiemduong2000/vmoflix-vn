@@ -1,13 +1,17 @@
 /* eslint-disable indent */
 /* eslint-disable func-names */
+import { Modal } from '@material-ui/core';
 import { getUsersFilterApi } from 'apis/userApi';
 import queryString from 'query-string';
 import React, { useEffect, useState } from 'react';
 import { Helmet } from 'react-helmet';
+import { VscClose } from 'react-icons/vsc';
 import { Link } from 'react-router-dom';
 import { Loading } from 'utils/Loadable';
 import FilterAdmin from '../FilterAdmin';
+import ChangePasswordUser from './components/ChangePasswordUser';
 import RowTableUsers from './components/RowTableUsers';
+import UpdateUser from './components/UpdateUser';
 import sortOptions from './data';
 import './style.scss';
 
@@ -18,6 +22,9 @@ const ListUsers = (props) => {
     users: [],
     flag: true,
     search: '',
+    modalUpdateUser: false,
+    modalChangePassword: false,
+    currentUser: {},
   });
 
   // Get data from store
@@ -38,6 +45,7 @@ const ListUsers = (props) => {
         sortUsers: sortOptions[0],
         users: responseAll.data,
         loading: false,
+        modalUpdateUser: false,
       }));
     })();
     // eslint-disable-next-line
@@ -95,6 +103,20 @@ const ListUsers = (props) => {
     });
   };
 
+  const toggleModalUpdateUser = () => {
+    setState({
+      ...state,
+      modalUpdateUser: !state.modalUpdateUser,
+    });
+  };
+
+  const toggleModalChangePassword = () => {
+    setState({
+      ...state,
+      modalChangePassword: !state.modalChangePassword,
+    });
+  };
+
   return (
     <div className='listUsers w-4/5 mx-auto relative opacity-80'>
       <Helmet>
@@ -124,7 +146,47 @@ const ListUsers = (props) => {
           <Loading />
         ) : (
           <div className='listUsers__wrapTable h-50rem'>
-            <table>
+            <Modal
+              open={state.modalUpdateUser}
+              onClose={toggleModalUpdateUser}
+              aria-labelledby='simple-modal-title'
+              aria-describedby='simple-modal-description'
+              className='flex items-center justify-center'
+            >
+              <div className='bg-black-body flex items-center flex-col overflow-hidden rounded-2xl outline-none relative px-8 py-14 sm:px-24 sm:py-24'>
+                <div
+                  className='absolute top-1rem sm:top-3rem right-1rem sm:right-3rem bg-black-body hover:bg-gray-primary-d transition-all duration-200 p-2 rounded-full cursor-pointer'
+                  onClick={toggleModalUpdateUser}
+                >
+                  <VscClose className='text-30 text-white' />
+                </div>
+                <UpdateUser
+                  currentUser={state.currentUser}
+                  setFlag={() => setState({ ...state, flag: !state.flag })}
+                />
+              </div>
+            </Modal>
+            <Modal
+              open={state.modalChangePassword}
+              onClose={toggleModalChangePassword}
+              aria-labelledby='simple-modal-title'
+              aria-describedby='simple-modal-description'
+              className='flex items-center justify-center'
+            >
+              <div className='bg-black-body flex items-center flex-col overflow-hidden rounded-2xl outline-none relative px-8 py-14 sm:px-24 sm:py-24'>
+                <div
+                  className='absolute top-1rem sm:top-3rem right-1rem sm:right-3rem bg-black-body hover:bg-gray-primary-d transition-all duration-200 p-2 rounded-full cursor-pointer'
+                  onClick={toggleModalChangePassword}
+                >
+                  <VscClose className='text-30 text-white' />
+                </div>
+                <ChangePasswordUser
+                  user={state.currentUser}
+                  toggleModalChangePassword={toggleModalChangePassword}
+                />
+              </div>
+            </Modal>
+            <table className='w-full'>
               <thead>
                 <tr>
                   <th className='pl-3rem' style={{ width: '5%' }}>
@@ -142,7 +204,25 @@ const ListUsers = (props) => {
               </thead>
               <tbody>
                 {state.users.map((user, index) => (
-                  <RowTableUsers key={user._id} user={user} index={index} />
+                  <RowTableUsers
+                    key={user._id}
+                    user={user}
+                    index={index}
+                    handleUpdateUser={(currentUser) =>
+                      setState({
+                        ...state,
+                        currentUser,
+                        modalUpdateUser: !state.modalUpdateUser,
+                      })
+                    }
+                    handleChangePassword={(currentUser) =>
+                      setState({
+                        ...state,
+                        currentUser,
+                        modalChangePassword: !state.modalChangePassword,
+                      })
+                    }
+                  />
                 ))}
               </tbody>
             </table>

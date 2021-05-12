@@ -63,7 +63,7 @@ const HeaderAdmin = (props) => {
                     </p>
                     <Link
                       className='text-14 leading-10 block text-white hover:underline'
-                      to='/user/account'
+                      to='/admin/account'
                     >
                       Quản lý tài khoản
                     </Link>

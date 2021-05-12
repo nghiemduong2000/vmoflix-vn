@@ -220,7 +220,7 @@ const ListFilms = (props) => {
                       </td>
                       <td>
                         <Link
-                          to={`/admin/films/${film._id}`}
+                          to={`/admin/films/${film.slug}`}
                           className='flex justify-center cursor-pointer'
                         >
                           <FaEdit className='text-blue-facebook hover:text-blue-facebook-d text-22 transition-all duration-200' />

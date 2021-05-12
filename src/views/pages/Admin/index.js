@@ -1,5 +1,5 @@
 import PropTypes from 'prop-types';
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Route, Switch } from 'react-router-dom';
 import PrivateAdminRoute from 'routers/components/PrivateAdminRoute';
@@ -13,6 +13,7 @@ import HeaderAdmin from './components/HeaderAdmin';
 import ListCategories from './components/ListCategories';
 import ListFilms from './components/ListFilms';
 import ListUsers from './components/ListUsers';
+import ManageAccount from './components/ManageAccount';
 import SidebarAdmin from './components/SidebarAdmin';
 
 const Admin = (props) => {
@@ -29,21 +30,20 @@ const Admin = (props) => {
     // eslint-disable-next-line
   }, []);
 
-  const CreateEditFilmAdmin = () => {
+  const HaveHeader = () => {
     return (
       <>
         <HeaderAdmin />
         <Switch>
+          <Route path={`${match.url}/account`} component={ManageAccount} />
           <Route path={`${match.url}/films/add`} component={CreateEditFilm} />
-          <Route
-            path={`${match.url}/films/:filmId`}
-            component={CreateEditFilm}
-          />
+          <Route path={`${match.url}/films/:slug`} component={CreateEditFilm} />
         </Switch>
       </>
     );
   };
-  const ManageAdmin = () => {
+  const ManageFeatures = () => {
+    const [flag, setFlag] = useState(true);
     return (
       <div className='h-full bg-black-light'>
         <HeaderAdmin />
@@ -57,7 +57,7 @@ const Admin = (props) => {
           </div>
           <SidebarAdmin />
           <div className='flex-1 pb-20 relative'>
-            <AmountAdmin />
+            <AmountAdmin flag={flag} />
             <Switch>
               <PrivateAdminRoute
                 path={`${match.url}/manage/films`}
@@ -71,6 +71,7 @@ const Admin = (props) => {
               <PrivateAdminRoute
                 path={`${match.url}/manage/categories`}
                 component={ListCategories}
+                trigger={() => setFlag(!flag)}
               />
             </Switch>
           </div>
@@ -89,8 +90,11 @@ const Admin = (props) => {
             path={`${match.url}/manage/users/register`}
             component={Login}
           />
-          <Route path={`${match.url}/manage/:params`} component={ManageAdmin} />
-          <Route component={CreateEditFilmAdmin} />
+          <Route
+            path={`${match.url}/manage/:params`}
+            component={ManageFeatures}
+          />
+          <Route component={HaveHeader} />
         </Switch>
       )}
     </>

@@ -1,7 +1,7 @@
 /* eslint-disable react/jsx-one-expression-per-line */
 /* eslint-disable jsx-a11y/label-has-associated-control */
 import { Modal } from '@material-ui/core';
-import { changePwApi, updateUserApi } from 'apis/userApi';
+import { updateUserApi } from 'apis/userApi';
 import React, { useEffect, useState } from 'react';
 import { Helmet } from 'react-helmet';
 import { RiEditFill, RiErrorWarningLine } from 'react-icons/ri';
@@ -24,7 +24,7 @@ const User = () => {
   const [state, setState] = useState({
     userName: '',
     imageUser: '',
-    switchMode: true,
+    switchMode: false,
     modalImage: false,
     modalChangePassword: false,
     modalLock: false,
@@ -43,7 +43,7 @@ const User = () => {
       });
     }
     // eslint-disable-next-line
-  }, [isAuthenticated]);
+  }, [user]);
 
   const toggleModalImage = () => {
     setState({
@@ -76,36 +76,11 @@ const User = () => {
       isUpload: state.switchMode,
     };
     dispatch(userActions.updateUser({ id: user.get('_id'), dataUser }));
-  };
+    setState({
+      ...state,
 
-  const handleSubmitChangePassword = async (e) => {
-    try {
-      e.preventDefault();
-      const dataPassword = {
-        oldPassword: state.oldPassword,
-        newPassword: state.newPassword,
-        reNewPassword: state.reNewPassword,
-      };
-      if (state.newPassword !== state.reNewPassword) {
-        setState({
-          ...state,
-          error: 'Mật khẩu nhập lại không khớp',
-        });
-      } else {
-        setState({
-          ...state,
-          error: '',
-        });
-        await changePwApi(user.get('_id'), dataPassword);
-        dispatch(userActions.logout());
-      }
-    } catch (err) {
-      console.log(err);
-      setState({
-        ...state,
-        error: err.response.data.msg,
-      });
-    }
+      switchMode: false,
+    });
   };
 
   const handleLock = async () => {
@@ -132,7 +107,11 @@ const User = () => {
             modalImage={state.modalImage}
             toggleModalImage={toggleModalImage}
             toggleSwitchMode={() => {
-              setState({ ...state, switchMode: !state.switchMode });
+              setState({
+                ...state,
+                switchMode: !state.switchMode,
+                imageUser: '',
+              });
             }}
             switchMode={state.switchMode}
             onChange={(value) => {
@@ -141,35 +120,14 @@ const User = () => {
                 imageUser: value,
               });
             }}
-            imageUser={state.imageUser}
+            image={state.imageUser}
             user={user}
+            id='imageUser'
           />
           <ChangePassword
             modalChangePassword={state.modalChangePassword}
             toggleModalChangePassword={toggleModalChangePassword}
-            handleSubmitChangePassword={handleSubmitChangePassword}
-            oldPassword={state.oldPassword}
-            newPassword={state.newPassword}
-            reNewPassword={state.reNewPassword}
-            onChangeOldPw={(e) =>
-              setState({
-                ...state,
-                oldPassword: e.target.value,
-              })
-            }
-            onChangeNewPw={(e) =>
-              setState({
-                ...state,
-                newPassword: e.target.value,
-              })
-            }
-            onChangeReNewPw={(e) =>
-              setState({
-                ...state,
-                reNewPassword: e.target.value,
-              })
-            }
-            error={state.error}
+            user={user}
           />
           <Modal
             open={state.modalLock}
@@ -220,7 +178,9 @@ const User = () => {
                   <RiEditFill className=' text-40 text-white' />
                 </div>
                 <img
-                  src={state.imageUser}
+                  src={
+                    !state.imageUser ? user.get('imageUser') : state.imageUser
+                  }
                   className='w-full h-full object-cover'
                   alt='avatar'
                 />

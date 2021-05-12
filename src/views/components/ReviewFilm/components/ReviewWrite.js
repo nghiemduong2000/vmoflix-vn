@@ -43,7 +43,7 @@ const ReviewWrite = (props) => {
           comment,
         });
 
-        await updateFilmApi(currentFilm._id, { reviews: newReviews });
+        await updateFilmApi(currentFilm.slug, { reviews: newReviews });
 
         handleUpdateFilm({ ...currentFilm, reviews: newReviews });
         setRating(0);

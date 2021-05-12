@@ -2,15 +2,15 @@ import axios from 'axios';
 
 const path = '/api/films';
 
-export const getAFilmApi = async (id) => {
-  const promise = await axios.get(`${path}?filmId=${id}`, {
+export const getAFilmApi = async (slug) => {
+  const promise = await axios.get(`${path}?slug=${slug}`, {
     withCredentials: true,
   });
   return promise;
 };
 
-export const getAFilmAndRelated = async (id) => {
-  const promise = await axios.get(`${path}/related?filmId=${id}`, {
+export const getAFilmAndRelated = async (slug) => {
+  const promise = await axios.get(`${path}/related?slug=${slug}`, {
     withCredentials: true,
   });
   return promise;
@@ -37,8 +37,8 @@ export const addFilmApi = async (data) => {
   return promise;
 };
 
-export const updateFilmApi = async (id, data) => {
-  const promise = await axios.patch(`${path}/${id}`, data, {
+export const updateFilmApi = async (slug, data) => {
+  const promise = await axios.patch(`${path}/${slug}`, data, {
     withCredentials: true,
   });
   return promise;

@@ -90,10 +90,10 @@ const Banner = (props) => {
             length={numItems}
           >
             {films.slice(0, 4).map((film, index) => {
-              const { _id, bannerFilm } = film;
+              const { _id, slug, bannerFilm } = film;
               return (
                 <Link
-                  to={`/film/${_id}`}
+                  to={`/film/${slug}`}
                   className='group relative flex flex-carousel'
                   onMouseOver={() => {
                     if (debounce.current) {

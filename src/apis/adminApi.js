@@ -12,6 +12,27 @@ export const getAdminApi = async () => {
   return promise;
 };
 
+export const changePwUserByAdminApi = async (id, dataPassword) => {
+  const promise = await axios.patch(`/api/admin/changePw/${id}`, dataPassword, {
+    withCredentials: true,
+  });
+  return promise;
+};
+
+export const changePwAdminApi = async (dataPassword) => {
+  const promise = await axios.patch('/api/admin/changePwAdmin', dataPassword, {
+    withCredentials: true,
+  });
+  return promise;
+};
+
+export const updateAdminApi = async (dataAdmin) => {
+  const promise = await axios.patch('/api/admin/', dataAdmin, {
+    withCredentials: true,
+  });
+  return promise;
+};
+
 export const authAdminApi = async ({ loginID, password }) => {
   const promise = await axios.post(
     '/api/admin/auth',

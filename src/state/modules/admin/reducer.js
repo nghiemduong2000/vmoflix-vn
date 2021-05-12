@@ -35,6 +35,7 @@ const reducer = handleActions(
     [types.ADMIN_LOADING]: loading,
     [types.ADMIN_LOADED]: success,
     [types.LOGIN_SUCCESS]: success,
+    [types.UPDATE_ADMIN_SUCCESS]: success,
     [types.LOGIN_FAIL]: fail,
     [types.AUTH_ERROR]: fail,
     [types.LOGOUT_SUCCESS]: fail,

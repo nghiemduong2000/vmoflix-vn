@@ -1,9 +1,11 @@
 import { getAmountAdminApi } from 'apis/adminApi';
+import PropTypes from 'prop-types';
 import React, { useEffect, useState } from 'react';
 import { RiApps2Fill, RiFilmFill, RiUserFill } from 'react-icons/ri';
 import { Loading } from 'utils/Loadable';
 
-const AmountAdmin = () => {
+const AmountAdmin = (props) => {
+  const { flag } = props;
   const [state, setState] = useState({
     amountAdmin: {},
     loading: true,
@@ -25,7 +27,7 @@ const AmountAdmin = () => {
 
     getAmount();
     // eslint-disable-next-line
-  }, []);
+  }, [flag]);
 
   return (
     <div className='flex w-4/5 my-20 mx-auto justify-between opacity-80'>
@@ -70,6 +72,10 @@ const AmountAdmin = () => {
       )}
     </div>
   );
+};
+
+AmountAdmin.propTypes = {
+  flag: PropTypes.bool.isRequired,
 };
 
 export default React.memo(AmountAdmin);

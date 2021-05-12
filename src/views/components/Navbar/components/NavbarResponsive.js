@@ -60,7 +60,7 @@ const NavbarResponsive = (props) => {
                 Quản lý tài khoản
               </Link>
               <span
-                className='text-white text-16 font-bold hover:underline ml-6 mb-4'
+                className='text-white cursor-pointer text-16 font-bold hover:underline ml-6 mb-4'
                 onClick={() => dispatch(userActions.logout())}
               >
                 Đăng xuất
@@ -70,21 +70,21 @@ const NavbarResponsive = (props) => {
         </div>
         <ul className='py-2'>
           {categories.map((genre) => (
-            <li key={genre._id} className='w-full text-16 font-bold'>
+            <li key={genre._id} className='w-full text-16 font-bold group'>
               <Link
-                className={`w-full block py-2 relative ${
-                  genre.genre === query.get('genre')
-                    ? 'text-white'
-                    : 'text-gray-primary'
+                className={`w-full block py-2 relative text-white opacity-60 group-hover:opacity-100 ${
+                  genre.genre === query.get('genre') ? 'opacity-100' : null
                 }`}
                 style={{
                   paddingLeft: `${(window.innerWidth * 4) / 100}px`,
                 }}
                 to={`/category?genre=${genre.genre}`}
               >
-                {genre.genre === query.get('genre') ? (
-                  <div className='absolute w-0.25rem h-full top-0 left-0 bg-red-primary' />
-                ) : null}
+                <div
+                  className={`absolute w-0.25rem h-full top-0 left-0 bg-red-primary opacity-0 ${
+                    genre.genre === query.get('genre') ? 'opacity-100' : null
+                  }`}
+                />
                 {genre.vn}
               </Link>
             </li>

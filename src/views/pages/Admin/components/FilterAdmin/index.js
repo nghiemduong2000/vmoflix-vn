@@ -100,7 +100,7 @@ const FilterAdmin = (props) => {
   return (
     <div className='listFilms__searchFilter bg-black-body mb-6 rounded-xl'>
       <h3 className='text-24 text-white font-bold py-4 px-8 bg-black-navbar border-b border-gray-primary-d rounded-t-xl'>
-        Bộ lọc phim
+        {isManageFilms ? 'Bộ lọc phim' : 'Bộ lọc người dùng'}
       </h3>
       <div className='px-8 py-6'>
         <form
@@ -112,7 +112,9 @@ const FilterAdmin = (props) => {
         >
           <input
             type='text'
-            placeholder='Điền tên phim'
+            placeholder={
+              isManageFilms ? 'Điền tên phim' : 'Điền tên người dùng'
+            }
             className='px-6 py-4 shadow-inner-md text-20 flex-1 bg-gray-primary-d focus:outline-none text-white leading-20 rounded-md mr-8'
             onChange={(e) => handleSearch(e.target.value)}
           />

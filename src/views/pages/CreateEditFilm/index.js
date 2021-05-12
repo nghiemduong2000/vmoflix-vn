@@ -1,3 +1,4 @@
+/* eslint-disable jsx-a11y/label-has-associated-control */
 /* eslint-disable no-nested-ternary */
 /* eslint-disable func-names */
 /* eslint-disable react/no-array-index-key */
@@ -14,6 +15,7 @@ import { adminSelectors } from 'state/modules/admin';
 import { categoriesSelectors } from 'state/modules/categories';
 import { Loading } from 'utils/Loadable';
 import validation from 'utils/validation';
+import CustomSwitch from 'views/components/CustomSwitch';
 import InputImageFile from 'views/components/InputImageFile';
 import InputImageUrl from 'views/components/InputImageUrl';
 import './style.scss';
@@ -21,7 +23,7 @@ import './style.scss';
 const CreateEditFilm = () => {
   const history = useHistory();
   const { pathname } = useLocation();
-  const { filmId } = useParams();
+  const { slug } = useParams();
 
   const isAuthenticated = useSelector((state) =>
     adminSelectors.isAuthenticated(state),
@@ -32,39 +34,56 @@ const CreateEditFilm = () => {
 
   const isAddFilmPage = pathname === '/admin/films/add';
 
-  const [loading, setLoading] = useState(!isAddFilmPage);
-  const [isUpload, setIsUpload] = useState('URL');
-  const [error, setError] = useState('');
+  const [state, setState] = useState({
+    currentFilm: {},
+    loading: !isAddFilmPage,
+    switchMode: false,
+    error: '',
+    title: '',
+    titleSearch: '',
+    actor: '',
+    description: '',
+    genre: [],
+    posterFilm: '',
+    bannerFilm: '',
+    youtubeURL: '',
+  });
 
-  const [title, setTitle] = useState('');
-  const [actor, setActor] = useState('');
-  const [description, setDescription] = useState('');
-  const [genre, setGenre] = useState([]);
-  const [posterFilm, setPosterFilm] = useState('');
-  const [posterFilmDefault, setPosterFilmDefault] = useState('');
-  const [bannerFilm, setBannerFilm] = useState('');
-  const [bannerFilmDefault, setBannerFilmDefault] = useState('');
-  const [youtubeURL, setYoutubeURL] = useState('');
-  const [titleSearch, setTitleSearch] = useState('');
+  const [error, setError] = useState('');
 
   useEffect(() => {
     if (!isAddFilmPage) {
       const getFilm = async () => {
         try {
-          setLoading(true);
-          const response = await getAFilmApi(filmId);
+          setState({
+            ...state,
+            loading: true,
+          });
+          const response = await getAFilmApi(slug);
           const currentFilm = response.data;
-          setTitle(currentFilm.title);
-          setActor(currentFilm.actor.join(', '));
-          setDescription(currentFilm.description);
-          setGenre(currentFilm.genre);
-          setPosterFilm(currentFilm.posterFilm);
-          setPosterFilmDefault(currentFilm.posterFilm);
-          setBannerFilm(currentFilm.bannerFilm);
-          setBannerFilmDefault(currentFilm.bannerFilm);
-          setYoutubeURL(currentFilm.youtubeURL);
-          setTitleSearch(currentFilm.titleSearch);
-          setLoading(false);
+          const {
+            title,
+            titleSearch,
+            actor,
+            description,
+            genre,
+            posterFilm,
+            bannerFilm,
+            youtubeURL,
+          } = currentFilm;
+          setState((newState) => ({
+            ...newState,
+            currentFilm,
+            title,
+            titleSearch,
+            actor: actor.join(', '),
+            description,
+            genre,
+            posterFilm,
+            bannerFilm,
+            youtubeURL,
+            loading: false,
+          }));
         } catch (err) {
           console.log(err);
         }
@@ -76,44 +95,74 @@ const CreateEditFilm = () => {
   }, []);
 
   const handleCheckbox = (item) => {
-    const existing = genre.indexOf(item);
+    const existing = state.genre.indexOf(item);
     if (existing !== -1) {
-      setGenre(genre.filter((_item, index) => existing !== index));
+      setState({
+        ...state,
+        genre: state.genre.filter((_item, index) => existing !== index),
+      });
     } else {
-      setGenre([...genre, item]);
+      setState({
+        ...state,
+        genre: [...state.genre, item],
+      });
     }
+  };
+
+  const progressData = async () => {
+    const dataUpload = {
+      title: state.title,
+      images: [state.posterFilm, state.bannerFilm],
+      description: state.description,
+      genre: state.genre,
+      isUpload: state.switchMode,
+      actor: state.actor.split(',').map((item) => item.trim().toLowerCase()),
+      youtubeURL: state.youtubeURL,
+      titleSearch: state.titleSearch,
+    };
+
+    if (isAddFilmPage) {
+      await addFilmApi(dataUpload);
+    } else {
+      await updateFilmApi(slug, dataUpload);
+    }
+    setError('');
+    history.push('/admin/manage/films');
   };
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    if (
-      validation(title, description, genre, posterFilm, bannerFilm, youtubeURL)
-    ) {
-      const dataUpload = {
-        title,
-        images: [posterFilm, bannerFilm],
-        description,
-        genre,
-        isUpload,
-        actor:
-          typeof actor === 'string'
-            ? actor.split(',').map((item) => item.trim().toLowerCase())
-            : actor,
-        youtubeURL,
-        titleSearch,
-      };
-
-      if (isAddFilmPage) {
-        addFilmApi(dataUpload);
+    if (isAddFilmPage) {
+      if (
+        validation(
+          state.title,
+          state.description,
+          state.posterFilm,
+          state.bannerFilm,
+          state.youtubeURL,
+          state.actor,
+          state.titleSearch,
+        ) &&
+        state.genre.length > 0
+      ) {
+        progressData();
       } else {
-        updateFilmApi(filmId, dataUpload);
+        setError('Vui lòng điền tất cả ô trống');
       }
-      setError('');
-      setTimeout(() => history.push('/admin/manage/films'), 500);
     } else {
-      setError('Vui lòng điền tất cả ô trống');
+      progressData();
     }
   };
+
+  const toggleSwitchMode = () => {
+    setState({
+      ...state,
+      switchMode: !state.switchMode,
+      posterFilm: '',
+      bannerFilm: '',
+    });
+  };
+
   return (
     <>
       <Helmet>
@@ -123,7 +172,7 @@ const CreateEditFilm = () => {
       </Helmet>
       {!isAuthenticated ? (
         <Redirect to='/admin' />
-      ) : loading ? (
+      ) : state.loading ? (
         <Loading />
       ) : (
         <div className='createReview flex items-center justify-center'>
@@ -153,8 +202,13 @@ const CreateEditFilm = () => {
                 type='text'
                 className='createReview__form-input'
                 placeholder='Tiêu đề bài viết'
-                onChange={(e) => setTitle(e.target.value)}
-                value={title}
+                onChange={(e) => {
+                  setState({
+                    ...state,
+                    title: e.target.value,
+                  });
+                }}
+                value={state.title}
               />
             </label>
             <label htmlFor='titleSearch'>
@@ -166,8 +220,13 @@ const CreateEditFilm = () => {
                 type='text'
                 className='createReview__form-input'
                 placeholder='Tiêu đề tìm kiếm'
-                onChange={(e) => setTitleSearch(e.target.value)}
-                value={titleSearch}
+                onChange={(e) => {
+                  setState({
+                    ...state,
+                    titleSearch: e.target.value,
+                  });
+                }}
+                value={state.titleSearch}
               />
             </label>
             <label htmlFor='actor' className='text-20 text-white'>
@@ -177,8 +236,13 @@ const CreateEditFilm = () => {
                 type='text'
                 className='createReview__form-input'
                 placeholder='Diễn viên'
-                onChange={(e) => setActor(e.target.value)}
-                value={actor}
+                onChange={(e) => {
+                  setState({
+                    ...state,
+                    actor: e.target.value,
+                  });
+                }}
+                value={state.actor}
               />
             </label>
 
@@ -187,14 +251,14 @@ const CreateEditFilm = () => {
               {categories.map((item) => (
                 <label
                   htmlFor={item.genre}
-                  key={item.id}
+                  key={item._id}
                   className='text-20 text-white w-1/2 sm:w-1/4 mb-4 sm:mb-0 relative pl-12 createReview__form-checkbox'
                 >
                   <input
                     id={item.genre}
                     type='checkbox'
                     className='absolute opacity-0 cursor-pointer h-0 w-0'
-                    checked={genre.indexOf(item.genre) !== -1}
+                    checked={state.genre.indexOf(item.genre) !== -1}
                     onChange={() => {
                       handleCheckbox(item.genre);
                     }}
@@ -210,68 +274,56 @@ const CreateEditFilm = () => {
               <input
                 id='youtubeURL'
                 type='text'
-                value={youtubeURL}
+                value={state.youtubeURL}
                 placeholder='URL phim'
                 className='createReview__form-input'
-                onChange={(e) => setYoutubeURL(e.target.value)}
+                onChange={(e) => {
+                  setState({
+                    ...state,
+                    youtubeURL: e.target.value,
+                  });
+                }}
               />
             </label>
 
-            <div
-              className='text-white text-20 mb-2'
-              onChange={(e) => {
-                setIsUpload(e.target.value);
-                setPosterFilm('');
-                setBannerFilm('');
-              }}
-            >
-              <span className='mr-6'>Ảnh</span>
-              <label htmlFor='url' className='mr-6'>
-                <input
-                  className='mr-2'
-                  id='url'
-                  type='radio'
-                  name='image'
-                  value='URL'
-                  defaultChecked={isUpload === 'URL'}
-                />
-                Url
-              </label>
-              <label htmlFor='upload'>
-                <input
-                  className='mr-2'
-                  id='upload'
-                  type='radio'
-                  name='image'
-                  value='UPLOAD'
-                  defaultChecked={isUpload === 'UPLOAD'}
-                />
-                Upload
-              </label>
-            </div>
-            {isUpload === 'UPLOAD' ? (
+            <label className='flex items-center justify-center mb-6'>
+              <span className='text-16 text-white mr-4'>URL</span>
+              <CustomSwitch
+                checked={state.switchMode}
+                onChange={toggleSwitchMode}
+                name='checkedC'
+              />
+              <span className='text-16 text-white ml-4'>Upload</span>
+            </label>
+            {state.switchMode ? (
               <div className='createReview__form-input flex'>
                 <InputImageFile
                   id='posterFilm'
-                  value={posterFilm}
-                  valueDefault={posterFilmDefault}
+                  value={state.posterFilm}
                   placeholder='Chọn Poster'
-                  width='w-16rem'
-                  setState={(value) => setPosterFilm(value)}
+                  width='w-14rem'
+                  setState={(value) => {
+                    setState((newState) => ({
+                      ...newState,
+                      posterFilm: value,
+                    }));
+                  }}
                   styleContainer='mr-6'
                   styleLabel='ml-6'
-                  styleReset='mt-2 text-30'
                 />
                 <InputImageFile
                   id='bannerFilm'
-                  valueDefault={bannerFilmDefault}
-                  value={bannerFilm}
+                  value={state.bannerFilm}
                   placeholder='Chọn Banner'
-                  width='w-28rem'
-                  setState={(value) => setBannerFilm(value)}
+                  width='w-26rem'
+                  setState={(value) => {
+                    setState({
+                      ...state,
+                      bannerFilm: value,
+                    });
+                  }}
                   styleContainer='mr-6'
                   styleLabel='ml-6'
-                  styleReset='mt-2 text-30'
                 />
               </div>
             ) : (
@@ -279,19 +331,27 @@ const CreateEditFilm = () => {
                 <InputImageUrl
                   className='w-12rem my-6'
                   placeholder='URL Poster'
-                  value={posterFilm}
-                  valueDefault={posterFilmDefault}
-                  setState={(value) => setPosterFilm(value)}
+                  value={state.posterFilm}
+                  setState={(value) => {
+                    setState({
+                      ...state,
+                      posterFilm: value,
+                    });
+                  }}
                   styleContainer='bg-gray-primary-d rounded-md mr-6 mb-6'
                   styleReset='mt-2 text-30'
                 />
                 <InputImageUrl
                   className='w-30rem my-6'
                   placeholder='URL Banner'
-                  value={bannerFilm}
-                  valueDefault={bannerFilmDefault}
+                  value={state.bannerFilm}
                   styleContainer='bg-gray-primary-d rounded-md mb-6'
-                  setState={(value) => setBannerFilm(value)}
+                  setState={(value) => {
+                    setState({
+                      ...state,
+                      bannerFilm: value,
+                    });
+                  }}
                   styleReset='mt-2 text-30'
                 />
               </div>
@@ -300,8 +360,13 @@ const CreateEditFilm = () => {
             <textarea
               className='createReview__form-input h-20rem'
               placeholder='Mô tả bài viết'
-              onChange={(e) => setDescription(e.target.value)}
-              value={description}
+              onChange={(e) => {
+                setState({
+                  ...state,
+                  description: e.target.value,
+                });
+              }}
+              value={state.description}
             />
             <button
               type='submit'

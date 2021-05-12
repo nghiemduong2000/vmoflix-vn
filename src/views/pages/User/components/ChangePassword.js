@@ -1,25 +1,93 @@
+/* eslint-disable indent */
 import { Modal } from '@material-ui/core';
 import PropTypes from 'prop-types';
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { VscClose } from 'react-icons/vsc';
+import { useDispatch, useSelector } from 'react-redux';
+import { useLocation } from 'react-router-dom';
+import { adminActions } from 'state/modules/admin';
+import { errorActions, errorSelectors } from 'state/modules/error';
+import { userActions } from 'state/modules/user';
+import validation from 'utils/validation';
 
 const ChangePassword = (props) => {
-  const {
-    modalChangePassword,
-    toggleModalChangePassword,
-    handleSubmitChangePassword,
-    oldPassword,
-    newPassword,
-    reNewPassword,
-    onChangeOldPw,
-    onChangeNewPw,
-    onChangeReNewPw,
-    error,
-  } = props;
+  const { modalChangePassword, toggleModalChangePassword, user } = props;
+  const dispatch = useDispatch();
+  const { pathname } = useLocation();
+
+  const error = useSelector((state) => errorSelectors.error(state));
+
+  const isAdmin = pathname.indexOf('admin') !== -1;
+
+  const [state, setState] = useState({
+    oldPassword: '',
+    newPassword: '',
+    reNewPassword: '',
+  });
+  const [validate, setValidate] = useState('');
+  const [msg, setMsg] = useState(null);
+
+  useEffect(() => {
+    if (error.id === 'CHANGE_PASSWORD_FAIL') {
+      setMsg(error.msg.msg);
+    } else {
+      setMsg(null);
+    }
+  }, [error]);
+
+  useEffect(() => {
+    return () => {
+      dispatch(errorActions.clearErrors());
+    };
+    // eslint-disable-next-line
+  }, []);
+
+  const handleSubmitChangePassword = async (e) => {
+    try {
+      e.preventDefault();
+      const dataPassword = {
+        oldPassword: state.oldPassword,
+        newPassword: state.newPassword,
+      };
+      if (
+        !validation(state.oldPassword, state.newPassword, state.reNewPassword)
+      ) {
+        setValidate('Điền tất cả ô trống');
+      } else if (state.newPassword !== state.reNewPassword) {
+        setValidate('Mật khẩu nhập lại không khớp');
+      } else {
+        setValidate('');
+        isAdmin
+          ? dispatch(adminActions.changePasswordAdmin(dataPassword))
+          : dispatch(
+              userActions.changePasswordUser({
+                id: user.get('_id'),
+                dataPassword,
+              }),
+            );
+      }
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
+  const clearValue = () => {
+    setValidate('');
+    setState({
+      ...state,
+      oldPassword: '',
+      newPassword: '',
+      reNewPassword: '',
+    });
+  };
+
   return (
     <Modal
       open={modalChangePassword}
-      onClose={toggleModalChangePassword}
+      onClose={() => {
+        clearValue();
+        toggleModalChangePassword();
+      }}
       aria-labelledby='simple-modal-title'
       aria-describedby='simple-modal-description'
       className='flex items-center justify-center'
@@ -27,7 +95,10 @@ const ChangePassword = (props) => {
       <div className='bg-black-body flex items-center flex-col overflow-hidden rounded-2xl outline-none relative px-8 py-14 sm:px-24 sm:py-24'>
         <div
           className='absolute top-1rem sm:top-3rem right-1rem sm:right-3rem bg-black-body hover:bg-gray-primary-d transition-all duration-200 p-2 rounded-full cursor-pointer'
-          onClick={toggleModalChangePassword}
+          onClick={() => {
+            clearValue();
+            toggleModalChangePassword();
+          }}
         >
           <VscClose className='text-30 text-white' />
         </div>
@@ -40,35 +111,49 @@ const ChangePassword = (props) => {
                 kể cả thiết bị này`}
         </p>
         <form onSubmit={handleSubmitChangePassword}>
-          {!error ? null : (
+          {!msg ? null : (
             <div className='bg-gray-primary-d mb-8 border border-red-500 rounded-lg text-16 sm:text-18 py-4 px-6 text-red-500 w-30rem sm:w-35rem text-center'>
-              {error}
+              {msg}
+            </div>
+          )}
+          {!validate ? null : (
+            <div className='bg-gray-primary-d mb-8 border border-red-500 rounded-lg text-18 py-4 px-6 text-red-500 w-30rem sm:w-35rem text-center'>
+              {validate}
             </div>
           )}
           <input
             type='password'
-            value={oldPassword}
+            value={state.oldPassword}
             className='bg-gray-primary-d text-white text-16 sm:text-18 px-8 py-6 mb-6 rounded-md w-30rem sm:w-35rem block'
             onChange={(e) => {
-              onChangeOldPw(e);
+              setState({
+                ...state,
+                oldPassword: e.target.value,
+              });
             }}
             placeholder='Mật khẩu cũ'
           />
           <input
             type='password'
-            value={newPassword}
+            value={state.newPassword}
             className='bg-gray-primary-d text-white text-16 sm:text-18 px-8 py-6 mb-6 rounded-md w-30rem sm:w-35rem block'
             onChange={(e) => {
-              onChangeNewPw(e);
+              setState({
+                ...state,
+                newPassword: e.target.value,
+              });
             }}
             placeholder='Mật khẩu mới'
           />
           <input
             type='password'
-            value={reNewPassword}
+            value={state.reNewPassword}
             className='bg-gray-primary-d text-white text-16 sm:text-18 px-8 py-6 mb-6 rounded-md w-30rem sm:w-35rem block'
             onChange={(e) => {
-              onChangeReNewPw(e);
+              setState({
+                ...state,
+                reNewPassword: e.target.value,
+              });
             }}
             placeholder='Nhập lại mật khẩu mới'
           />
@@ -87,14 +172,10 @@ const ChangePassword = (props) => {
 ChangePassword.propTypes = {
   modalChangePassword: PropTypes.bool.isRequired,
   toggleModalChangePassword: PropTypes.func.isRequired,
-  handleSubmitChangePassword: PropTypes.func.isRequired,
-  oldPassword: PropTypes.string.isRequired,
-  newPassword: PropTypes.string.isRequired,
-  reNewPassword: PropTypes.string.isRequired,
-  onChangeOldPw: PropTypes.func.isRequired,
-  onChangeNewPw: PropTypes.func.isRequired,
-  onChangeReNewPw: PropTypes.func.isRequired,
-  error: PropTypes.string.isRequired,
+  user: PropTypes.any,
 };
 
-export default ChangePassword;
+ChangePassword.defaultProps = {
+  user: {},
+};
+export default React.memo(ChangePassword);

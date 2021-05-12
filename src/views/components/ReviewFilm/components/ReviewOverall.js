@@ -49,7 +49,7 @@ const ReviewOverall = (props) => {
           <RatingStar className='reviewFilm__star' ratingPercent={100} />
           <LinearProgress
             variant='determinate'
-            value={calPercent(5)}
+            value={parseFloat(calPercent(5))}
             className='reviewFilm__bar'
           />
           <div className='reviewFilm__percent'>{`${calPercent(5)}%`}</div>
@@ -59,7 +59,7 @@ const ReviewOverall = (props) => {
           <LinearProgress
             variant='determinate'
             className='reviewFilm__bar'
-            value={calPercent(4)}
+            value={parseFloat(calPercent(4))}
           />
           <div className='reviewFilm__percent'>{`${calPercent(4)}%`}</div>
         </div>
@@ -68,7 +68,7 @@ const ReviewOverall = (props) => {
           <LinearProgress
             variant='determinate'
             className='reviewFilm__bar'
-            value={calPercent(3)}
+            value={parseFloat(calPercent(3))}
           />
           <div className='reviewFilm__percent'>{`${calPercent(3)}%`}</div>
         </div>
@@ -77,7 +77,7 @@ const ReviewOverall = (props) => {
           <LinearProgress
             variant='determinate'
             className='reviewFilm__bar'
-            value={calPercent(2)}
+            value={parseFloat(calPercent(2))}
           />
           <div className='reviewFilm__percent'>{`${calPercent(2)}%`}</div>
         </div>
@@ -86,7 +86,7 @@ const ReviewOverall = (props) => {
           <LinearProgress
             variant='determinate'
             className='reviewFilm__bar'
-            value={calPercent(1)}
+            value={parseFloat(calPercent(1))}
           />
           <div className='reviewFilm__percent'>{`${calPercent(1)}%`}</div>
         </div>

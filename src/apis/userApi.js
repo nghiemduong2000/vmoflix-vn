@@ -70,7 +70,7 @@ export const updateUserApi = async (id, dataUser) => {
   return promise;
 };
 
-export const changePwApi = async (id, dataPw) => {
+export const changePwUserApi = async (id, dataPw) => {
   const promise = await axios.patch(`/api/user/changePw/${id}`, dataPw, {
     withCredentials: true,
   });

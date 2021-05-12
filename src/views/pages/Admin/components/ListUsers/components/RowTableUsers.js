@@ -4,11 +4,11 @@ import dateFormat from 'dateformat';
 import PropTypes from 'prop-types';
 import React, { useState } from 'react';
 import { FaEdit } from 'react-icons/fa';
+import { RiLockPasswordFill } from 'react-icons/ri';
 import { LazyLoadImage } from 'react-lazy-load-image-component';
-import { Link } from 'react-router-dom';
 
 const RowTableUsers = (props) => {
-  const { user, index } = props;
+  const { user, index, handleUpdateUser, handleChangePassword } = props;
   const { userName, userEmail, isActive, imageUser, date } = user;
   const [isSwitch, setIsSwitch] = useState(isActive);
 
@@ -55,13 +55,17 @@ const RowTableUsers = (props) => {
           />
         </div>
       </td>
-      <td>
-        <Link
-          to={`/admin/users/${user._id}`}
-          className='flex justify-center cursor-pointer'
+      <td className='flex justify-center'>
+        <button
+          type='button'
+          onClick={() => handleUpdateUser(user)}
+          className='flex justify-center cursor-pointer mr-10'
         >
           <FaEdit className='text-blue-facebook hover:text-blue-facebook-d text-22 transition-all duration-200' />
-        </Link>
+        </button>
+        <button type='button' onClick={() => handleChangePassword(user)}>
+          <RiLockPasswordFill className='text-22 text-orange-primary transition-all duration-200 hover:text-orange-primary-d' />
+        </button>
       </td>
     </tr>
   );
@@ -70,6 +74,8 @@ const RowTableUsers = (props) => {
 RowTableUsers.propTypes = {
   user: PropTypes.object.isRequired,
   index: PropTypes.number.isRequired,
+  handleUpdateUser: PropTypes.func.isRequired,
+  handleChangePassword: PropTypes.func.isRequired,
 };
 
 export default RowTableUsers;

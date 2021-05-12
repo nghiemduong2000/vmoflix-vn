@@ -117,7 +117,9 @@ const Login = (props) => {
   return (
     <>
       <Helmet>
-        <title>Đăng nhập - VMOflix</title>
+        <title>
+          {isRegister ? 'Đăng ký - VMOflix' : 'Đăng nhập - VMOflix'}
+        </title>
       </Helmet>
       {!isAdmin ? (
         !isAuthenticatedUser ? null : props.location.state ? (
@@ -150,9 +152,16 @@ const Login = (props) => {
           onSubmit={handleSubmit}
           className='login__form z-1 bg-black bg-opacity-80 px-8 py-14 sm:px-24 sm:py-24 flex flex-col'
         >
-          <h3 className='text-30 text-white font-bold mb-10'>
-            {isRegister ? 'Đăng ký' : 'Đăng nhập'}
-          </h3>
+          <div className='flex justify-between items-center mb-10'>
+            <h3 className='text-30 text-white font-bold'>
+              {isRegister ? 'Đăng ký' : 'Đăng nhập'}
+            </h3>
+            {isRegister && !isAdmin ? (
+              <Link to='/login' className='text-red-primary text-16 font-bold'>
+                Đăng nhập
+              </Link>
+            ) : null}
+          </div>
           {!msg ? null : (
             <div className='bg-gray-primary-d mb-8 border border-red-500 rounded-lg text-18 py-4 px-6 text-red-500 w-30rem sm:w-35rem text-center'>
               {msg}
@@ -225,7 +234,8 @@ const Login = (props) => {
                   onSuccess={responseSuccessGoogle}
                   onFailure={responseFailGoogle}
                   cookiePolicy='single_host_origin'
-                  className='flex-1 mr-4'
+                  className='justify-center flex-1 mr-4'
+                  icon={false}
                 />
                 <FacebookLogin
                   appId='761669164547706'
@@ -233,7 +243,7 @@ const Login = (props) => {
                   fields='name,email,picture'
                   callback={responseFacebook}
                   textButton='Facebook'
-                  cssClass='text-white text-20 bg-blue-700 w-full h-full rounded-md'
+                  cssClass='text-white text-20 bg-blue-facebook w-full h-full rounded-md hover:bg-blue-facebook-d'
                 />
               </div>
             </>

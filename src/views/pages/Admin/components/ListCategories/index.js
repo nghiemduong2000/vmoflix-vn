@@ -1,6 +1,7 @@
 /* eslint-disable indent */
 /* eslint-disable func-names */
 import { addCategoryApi, getCategoriesApi } from 'apis/categoryApi';
+import PropTypes from 'prop-types';
 import React, { useEffect, useState } from 'react';
 import { Helmet } from 'react-helmet';
 import { Loading } from 'utils/Loadable';
@@ -8,10 +9,13 @@ import validation from 'utils/validation';
 import './style.scss';
 
 const ListCategories = (props) => {
+  const { trigger } = props;
   const [state, setState] = useState({
     categories: [],
     loading: true,
     flag: true,
+    genre: '',
+    vn: '',
     validate: '',
     genreValue: '',
     vnValue: '',
@@ -31,6 +35,18 @@ const ListCategories = (props) => {
         loading: false,
       }));
     })();
+    return () => {
+      setState({
+        categories: [],
+        loading: true,
+        flag: true,
+        genre: '',
+        vn: '',
+        validate: '',
+        genreValue: '',
+        vnValue: '',
+      });
+    };
     // eslint-disable-next-line
   }, [state.flag]);
 
@@ -38,16 +54,15 @@ const ListCategories = (props) => {
     e.preventDefault();
     if (validation(state.genre, state.vn)) {
       await addCategoryApi({ genre: state.genre, vn: state.vn });
-      setTimeout(
-        () =>
-          setState({
-            ...state,
-            genre: '',
-            vn: '',
-            flag: !state.flag,
-          }),
-        500,
-      );
+      setTimeout(() => {
+        setState({
+          ...state,
+          genre: '',
+          vn: '',
+          flag: !state.flag,
+        });
+        trigger();
+      }, 500);
     } else {
       setState({
         ...state,
@@ -144,6 +159,10 @@ const ListCategories = (props) => {
       </div>
     </div>
   );
+};
+
+ListCategories.propTypes = {
+  trigger: PropTypes.func.isRequired,
 };
 
 export default React.memo(ListCategories);

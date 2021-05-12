@@ -1,5 +1,6 @@
 import {
   authUserApi,
+  changePwUserApi,
   getUserApi,
   loginFacebookApi,
   loginGoogleApi,
@@ -42,6 +43,9 @@ const logoutSuccess = createAction(types.LOGOUT_SUCCESS);
 const updateUser = createAction(types.UPDATE_USER);
 const updateUserSuccess = createAction(types.UPDATE_USER_SUCCESS);
 
+// Action Change Password
+const changePasswordUser = createAction(types.CHANGE_PASSWORD);
+
 // EXPORT ACTION
 export const actions = {
   loadUser,
@@ -51,6 +55,7 @@ export const actions = {
   register,
   logout,
   updateUser,
+  changePasswordUser,
 };
 
 //= =============== SAGAS ===============//
@@ -163,6 +168,24 @@ function* updateUserSaga(action) {
   }
 }
 
+function* changePasswordSaga(action) {
+  try {
+    const { id, dataPassword } = action.payload;
+    yield call(changePwUserApi, id, dataPassword);
+    yield put(logout());
+    yield put(clearErrors());
+  } catch (err) {
+    console.log(err);
+    yield put(
+      getErrors({
+        msg: err.response.data,
+        status: err.response.status,
+        id: 'CHANGE_PASSWORD_FAIL',
+      }),
+    );
+  }
+}
+
 export function* sagas() {
   yield takeEvery(types.LOAD_USER, loadUserSaga);
   yield takeEvery(types.LOGIN, loginSaga);
@@ -171,4 +194,5 @@ export function* sagas() {
   yield takeEvery(types.REGISTER, registerSaga);
   yield takeEvery(types.LOGOUT, logoutSaga);
   yield takeEvery(types.UPDATE_USER, updateUserSaga);
+  yield takeEvery(types.CHANGE_PASSWORD, changePasswordSaga);
 }

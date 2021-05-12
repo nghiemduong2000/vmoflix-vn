@@ -7,7 +7,7 @@ import { SiFacebook } from 'react-icons/si';
 import ReactPlayer from 'react-player';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link, useLocation, useParams } from 'react-router-dom';
-import { FacebookButton, FacebookCount } from 'react-social';
+import { FacebookButton } from 'react-social';
 import { categoriesSelectors } from 'state/modules/categories';
 import { userActions, userSelectors } from 'state/modules/user';
 import capitalizeFirstLetter from 'utils/capitalizeFirstLetter';
@@ -20,7 +20,7 @@ import ReviewFilm from 'views/components/ReviewFilm';
 import './style.scss';
 
 const DetailFilm = () => {
-  const { id } = useParams();
+  const { slug } = useParams();
   const { pathname } = useLocation();
   const dispatch = useDispatch();
   const [currentFilm, setCurrentFilm] = useState({});
@@ -64,7 +64,7 @@ const DetailFilm = () => {
   useEffect(() => {
     window.addEventListener('scroll', listenScrollEvent);
     const getFilm = async () => {
-      const response = await getAFilmAndRelated(id);
+      const response = await getAFilmAndRelated(slug);
       setCurrentFilm(response.data.film);
       if (isAuthenticated) {
         handleUpdateHistoryUser(response.data.film);
@@ -77,7 +77,7 @@ const DetailFilm = () => {
       window.removeEventListener('scroll', listenScrollEvent);
     };
     // eslint-disable-next-line
-  }, [id]);
+  }, [slug]);
 
   const handleDeleteFilm = (idFilm) => {
     setRelated(related.filter((film) => film._id !== idFilm));
@@ -152,20 +152,16 @@ const DetailFilm = () => {
                       />
                       <div className='detailFilm__info-left-top-share '>
                         <FacebookButton
-                          url={`https://vmoflix-vn.web.app/#${pathname}`}
+                          url={`https://vmoflix-vn.web.app/${pathname}`}
                           appId='761669164547706'
                           className='flex items-center bg-blue-facebook py-0.25rem px-1rem text-14 text-white ml-10 rounded-md'
                         >
                           <SiFacebook className='mr-2' />
                           Chia sẻ
-                          <FacebookCount
-                            className='ml-4'
-                            url={`https://vmoflix-vn.web.app/#${pathname}`}
-                          />
                         </FacebookButton>
                       </div>
                     </div>
-                    <p className='text-16 mb-2 mt-10'>
+                    <div className='text-16 mb-2 mt-10'>
                       <strong className='text-gray-primary'>Diễn viên:</strong>
                       <span className='capitalize text-white'>
                         {currentFilm.actor
@@ -174,12 +170,13 @@ const DetailFilm = () => {
                             )}`
                           : ''}
                       </span>
-                    </p>
-                    <p className='text-16 mb-10'>
+                    </div>
+                    <div className='text-16 mb-10'>
                       <strong className='text-gray-primary'>Thể loại:</strong>
-                      <span className='text-white'>
+                      <ul className='text-white inline-block'>
+                        <>&nbsp;</>
                         {currentFilm.genre
-                          ? ` ${categories
+                          ? categories
                               .filter((item) => {
                                 for (
                                   let i = 0;
@@ -192,11 +189,20 @@ const DetailFilm = () => {
                                 }
                                 return false;
                               })
-                              .map((item) => item.vn)
-                              .join(', ')}`
-                          : ''}
-                      </span>
-                    </p>
+                              .map((item, index) => (
+                                <li className='inline-block' key={item._id}>
+                                  {index === 0 ? '' : <>,&nbsp;</>}
+                                  <Link
+                                    to={`/category?genre=${item.genre}`}
+                                    className='hover:underline'
+                                  >
+                                    {item.vn}
+                                  </Link>
+                                </li>
+                              ))
+                          : null}
+                      </ul>
+                    </div>
                     <strong className='text-16 text-gray-primary'>
                       Nội dung:
                     </strong>
