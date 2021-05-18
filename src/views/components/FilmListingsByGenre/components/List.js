@@ -47,7 +47,7 @@ const List = (props) => {
         <div className='filmListingsByGenre__modalFilm absolute top-4rem left-1/2 transform -translate-x-1/2 bg-black-body flex items-center flex-col w-4/5 sm:w-3/4 2xl:w-1/2 overflow-hidden rounded-2xl outline-none relative mb-4rem'>
           <div className='filmListingsByGenre__modalFilm-main p-previewFilm w-full absolute'>
             <ReactPlayer
-              url={currentFilm.youtubeURL}
+              url={currentFilm.trailerURL}
               playing
               loop
               style={{
@@ -58,7 +58,7 @@ const List = (props) => {
               width='100%'
               height='100%'
               config={{
-                youtube: {
+                trailer: {
                   playerVars: {
                     fs: 0,
                   },

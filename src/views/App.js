@@ -1,5 +1,7 @@
+/* eslint-disable react/jsx-one-expression-per-line */
 /* eslint-disable max-len */
 /* eslint-disable react-hooks/exhaustive-deps */
+import { createNotificationApi } from 'apis/subscriptionApi';
 import axios from 'axios';
 import React, { useEffect } from 'react';
 import { Helmet } from 'react-helmet';
@@ -7,17 +9,19 @@ import { useDispatch, useSelector } from 'react-redux';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import {
   categoriesActions,
-  categoriesSelectors,
+  categoriesSelectors
 } from 'state/modules/categories';
 import { userActions } from 'state/modules/user';
 import { Loading } from 'utils/Loadable';
 import routers from '../routers';
+import * as serviceWorker from '../serviceWorker';
 import './App.scss';
 import Footer from './components/Footer';
 import Navbar from './components/Navbar';
 import ScrollToTop from './components/ScrollToTop';
 import Admin from './pages/Admin';
 import DetailFilm from './pages/DetailFilm';
+import ForgotPassword from './pages/ForgotPassword';
 import Login from './pages/Login';
 
 axios.defaults.baseURL =
@@ -32,6 +36,26 @@ const App = () => {
   useEffect(() => {
     dispatch(userActions.loadUser());
     dispatch(categoriesActions.getCategories());
+    const pushNotification = async () => {
+      try {
+        if (serviceWorker.isPushNotificationSupported()) {
+          let consent = Notification.permission;
+          let userSubscription = await serviceWorker.getUserSubscription();
+          if (consent !== 'granted') {
+            consent = await serviceWorker.askUserPermission();
+          }
+          if (consent === 'granted') {
+            if (!userSubscription) {
+              userSubscription = await serviceWorker.createNotificationSubscription();
+              await createNotificationApi(userSubscription);
+            }
+          }
+        }
+      } catch (err) {
+        console.log(err);
+      }
+    };
+    pushNotification();
   }, []);
 
   const HaveNavbar = () => {
@@ -57,6 +81,8 @@ const App = () => {
         <Switch>
           <Route exact path='/login' component={Login} />
           <Route path='/register' component={Login} />
+          <Route path='/forgot-password' component={ForgotPassword} />
+          <Route path='/reset-password/:token' component={ForgotPassword} />
           <Route path='/film/:slug' component={DetailFilm} />
           <Route component={HaveNavbar} />
         </Switch>

@@ -6,14 +6,14 @@ const Footer = () => {
   return (
     <footer className='footer flex flex-col sm:flex-row justify-center items-center border-t-4 border-red-primary py-4rem relative'>
       <img
-        src='https://res.cloudinary.com/nghiemduong2000/image/upload/v1615915194/logoVMO-PNG-02_ybelrn.png'
+        src='https://res.cloudinary.com/nghiemduong2000/image/upload/v1615915194/logoVMO-PNG-02_ybelrn.webp'
         alt='logo'
         className='w-10rem mb-8 sm:mb-0 md:mr-4rem lg:w-20rem '
       />
       <div className='flex flex-start flex-col sm:flex-row justify-center items-center '>
         <div className='footer__about items-center sm:justify-center flex flex-col sm:flex-rol w-20rem md:w-40rem mr-0 sm:mr-4rem mb-6 sm: mb-0'>
           <img
-            src='https://res.cloudinary.com/nghiemduong2000/image/upload/v1618458158/Review%20Film%20Project/base/VMOFLIX-02-02_bpjidv.png'
+            src='https://res.cloudinary.com/nghiemduong2000/image/upload/v1618458158/VMOflix%20Project/VMOflix%20-%20base/VMOFLIX-02-02_bpjidv.webp'
             alt='logo'
             className='w-8rem sm:w-8rem md:w-10rem ld:w-14rem mb-4'
           />
@@ -31,6 +31,7 @@ const Footer = () => {
                 href='https://www.facebook.com/Vmogroup2012'
                 target='_blank'
                 rel='noreferrer'
+                aria-label='Đường dẫn Facebook'
                 className='block bg-red-primary w-3.5rem h-3.5rem flex items-center justify-center rounded-md hover:bg-red-primary-d transition-all duration-200'
               >
                 <FaFacebookF className='text-18 text-black-body' />
@@ -40,6 +41,7 @@ const Footer = () => {
               <a
                 href='https://www.vmogroup.com/'
                 target='_blank'
+                aria-label='Đường dẫn Website'
                 rel='noreferrer'
                 className='block bg-red-primary w-3.5rem h-3.5rem flex items-center justify-center rounded-md hover:bg-red-primary-d transition-all duration-200'
               >

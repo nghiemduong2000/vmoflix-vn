@@ -76,3 +76,21 @@ export const changePwUserApi = async (id, dataPw) => {
   });
   return promise;
 };
+
+export const forgotPasswordApi = async (email) => {
+  const promise = await axios.patch(
+    '/api/user/forgotPassword',
+    { email },
+    { withCredentials: true },
+  );
+  return promise;
+};
+
+export const resetPasswordApi = async (resetLink, newPassword) => {
+  const promise = await axios.patch(
+    '/api/user/resetPassword',
+    { resetLink, newPassword },
+    { withCredentials: true },
+  );
+  return promise;
+};

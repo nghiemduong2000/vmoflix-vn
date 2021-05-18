@@ -8,7 +8,7 @@ import { RiLockPasswordFill } from 'react-icons/ri';
 import { LazyLoadImage } from 'react-lazy-load-image-component';
 
 const RowTableUsers = (props) => {
-  const { user, index, handleUpdateUser, handleChangePassword } = props;
+  const { user, index, handleUpdateUser, handleChangePassword, handleSnackBar } = props;
   const { userName, userEmail, isActive, imageUser, date } = user;
   const [isSwitch, setIsSwitch] = useState(isActive);
 
@@ -49,6 +49,7 @@ const RowTableUsers = (props) => {
             onChange={() => {
               setIsSwitch(!isSwitch);
               updateUserApi(user._id, { isActive: !isSwitch });
+              handleSnackBar('Cập nhật trạng thái người dùng thành công')
             }}
             name='isActive'
             inputProps={{ 'aria-label': 'secondary checkbox' }}
@@ -76,6 +77,7 @@ RowTableUsers.propTypes = {
   index: PropTypes.number.isRequired,
   handleUpdateUser: PropTypes.func.isRequired,
   handleChangePassword: PropTypes.func.isRequired,
+  handleSnackBar: PropTypes.func.isRequired
 };
 
 export default RowTableUsers;

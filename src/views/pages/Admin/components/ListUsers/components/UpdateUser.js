@@ -7,7 +7,7 @@ import InputImageFile from 'views/components/InputImageFile';
 import InputImageUrl from 'views/components/InputImageUrl';
 
 const UpdateUser = (props) => {
-  const { setFlag, currentUser } = props;
+  const { setFlag, currentUser, handleSnackBar } = props;
 
   const [state, setState] = useState({
     switchMode: false,
@@ -36,6 +36,7 @@ const UpdateUser = (props) => {
         isUpload: state.switchMode,
       };
       await updateUserApi(currentUser._id, dataUser);
+      handleSnackBar('Cập nhật người dùng thành công')
       setFlag();
     } catch (err) {
       console.log(err);
@@ -113,6 +114,7 @@ const UpdateUser = (props) => {
 UpdateUser.propTypes = {
   currentUser: PropTypes.object.isRequired,
   setFlag: PropTypes.func.isRequired,
+  handleSnackBar: PropTypes.func.isRequired,
 };
 
 export default UpdateUser;

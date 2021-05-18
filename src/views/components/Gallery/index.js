@@ -39,6 +39,7 @@ const Gallery = (props) => {
           <Link
             to={`/film/${film.slug}`}
             className='p-film gallary__link block'
+            aria-label='Đường dẫn phim'
             onClick={(e) => {
               if (window.innerWidth >= 1280) {
                 e.preventDefault();

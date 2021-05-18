@@ -51,7 +51,7 @@ const Admin = (props) => {
           <div className=' fixed z-0 top-0 w-full opacity-30'>
             <img
               className='w-full h-full object-cover filter blur'
-              src='https://res.cloudinary.com/nghiemduong2000/image/upload/v1618500603/Review%20Film%20Project/base/vmoflix-tv-logo_gd1rmx.png'
+              src='https://res.cloudinary.com/nghiemduong2000/image/upload/v1618500603/VMOflix%20Project/VMOflix%20-%20base/vmoflix-tv-logo_gd1rmx.webp'
               alt=''
             />
           </div>
@@ -61,6 +61,11 @@ const Admin = (props) => {
             <Switch>
               <PrivateAdminRoute
                 path={`${match.url}/manage/films`}
+                component={ListFilms}
+                exact
+              />
+              <PrivateAdminRoute
+                path={`${match.url}/manage/films/bin`}
                 component={ListFilms}
                 exact
               />

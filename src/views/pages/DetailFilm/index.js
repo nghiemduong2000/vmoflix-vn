@@ -103,16 +103,16 @@ const DetailFilm = () => {
             <Navbar
               addClass={`transform ${scrolling ? null : '-translate-y-full'}`}
             />
-            <div className='group'>
+            <div className='group bg-black '>
               <Link
                 to='/'
                 type='button'
-                className='absolute bg-transparent text-white text-30 lg:text-50 top-1rem lg:top-5rem left-1rem lg:left-5rem opacity-100 xl:opacity-0 group-hover:opacity-100'
+                className='absolute z-1 bg-transparent text-white text-30 lg:text-50 top-1rem lg:top-5rem left-1rem lg:left-5rem opacity-100 xl:opacity-0 group-hover:opacity-100'
               >
                 <BiArrowBack />
               </Link>
               <ReactPlayer
-                url={currentFilm.youtubeURL}
+                url={currentFilm.filmURL}
                 controls
                 playing
                 width='100%'

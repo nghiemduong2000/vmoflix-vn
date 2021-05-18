@@ -93,7 +93,7 @@ const Navbar = (props) => {
             >
               <img
                 // eslint-disable-next-line max-len
-                src='https://res.cloudinary.com/nghiemduong2000/image/upload/v1618458158/Review%20Film%20Project/base/VMOFLIX-02-02_bpjidv.png'
+                src='https://res.cloudinary.com/nghiemduong2000/image/upload/v1618458158/VMOflix%20Project/VMOflix%20-%20base/VMOFLIX-02-02_bpjidv.webp'
                 alt='Logo'
                 className='h-2rem lg:h-2.5rem'
               />
@@ -164,6 +164,7 @@ const Navbar = (props) => {
               ) : (
                 <button
                   type='button'
+                  aria-label='Tìm kiếm phim'
                   onClick={() => {
                     setShowSearchBox(true);
                     setTimeout(() => inputNode.current.focus(), 0);

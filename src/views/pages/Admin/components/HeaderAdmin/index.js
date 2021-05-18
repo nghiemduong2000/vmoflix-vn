@@ -29,8 +29,7 @@ const HeaderAdmin = (props) => {
             </div>
             <Link className='flex items-center' to='/admin/manage/films'>
               <img
-                // eslint-disable-next-line max-len
-                src='https://res.cloudinary.com/nghiemduong2000/image/upload/v1618458158/Review%20Film%20Project/base/VMOFLIX-02-02_bpjidv.png'
+                src='https://res.cloudinary.com/nghiemduong2000/image/upload/v1618458158/VMOflix%20Project/VMOflix%20-%20base/VMOFLIX-02-02_bpjidv.webp'
                 alt='Logo'
                 className='h-2rem lg:h-2.5rem'
               />

@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import React, { useState } from 'react';
 
 const ChangePasswordUser = (props) => {
-  const { user, toggleModalChangePassword } = props;
+  const { user, toggleModalChangePassword, handleSnackBar } = props;
 
   const [state, setState] = useState({
     passwordAdmin: '',
@@ -31,6 +31,7 @@ const ChangePasswordUser = (props) => {
         });
         await changePwUserByAdminApi(user._id, dataPassword);
         toggleModalChangePassword();
+        handleSnackBar('Đổi mật khẩu thành công')
       }
     } catch (err) {
       console.log(err);
@@ -107,6 +108,7 @@ const ChangePasswordUser = (props) => {
 ChangePasswordUser.propTypes = {
   user: PropTypes.any.isRequired,
   toggleModalChangePassword: PropTypes.func.isRequired,
+  handleSnackBar: PropTypes.func.isRequired
 };
 
 export default ChangePasswordUser;

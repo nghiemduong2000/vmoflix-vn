@@ -140,3 +140,39 @@ export function unregister() {
       });
   }
 }
+
+const pushServerPublicKey =
+  'BJHyU8y3LWW1gVABQsOlfBhgo5hVDvAathO4WJWKbyDzLk6d2NW5sp92TWi4C95KjLQrBdX-jijAkHmmo1pd94Y';
+
+export async function askUserPermission() {
+  const promise = await Notification.requestPermission();
+  return promise;
+}
+
+export async function createNotificationSubscription() {
+  // wait for service worker installation to be ready
+
+  const serviceWorker = await navigator.serviceWorker.ready;
+
+  // subscribe and return the subscription
+  const promise = await serviceWorker.pushManager.subscribe({
+    userVisibleOnly: true,
+    applicationServerKey: pushServerPublicKey,
+  });
+  return promise;
+}
+
+export function getUserSubscription() {
+  // wait for service worker installation to be ready, and then
+  return navigator.serviceWorker.ready
+    .then((serviceWorker) => {
+      return serviceWorker.pushManager.getSubscription();
+    })
+    .then((pushSubscription) => {
+      return pushSubscription;
+    });
+}
+
+export function isPushNotificationSupported() {
+  return 'serviceWorker' in navigator && 'PushManager' in window;
+}

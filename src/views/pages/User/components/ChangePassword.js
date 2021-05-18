@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import React, { useEffect, useState } from 'react';
 import { VscClose } from 'react-icons/vsc';
 import { useDispatch, useSelector } from 'react-redux';
-import { useLocation } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import { adminActions } from 'state/modules/admin';
 import { errorActions, errorSelectors } from 'state/modules/error';
 import { userActions } from 'state/modules/user';
@@ -124,7 +124,7 @@ const ChangePassword = (props) => {
           <input
             type='password'
             value={state.oldPassword}
-            className='bg-gray-primary-d text-white text-16 sm:text-18 px-8 py-6 mb-6 rounded-md w-30rem sm:w-35rem block'
+            className='bg-gray-primary-d text-white text-16 sm:text-18 px-8 py-6 mb-4 rounded-md w-30rem sm:w-35rem block'
             onChange={(e) => {
               setState({
                 ...state,
@@ -133,6 +133,9 @@ const ChangePassword = (props) => {
             }}
             placeholder='Mật khẩu cũ'
           />
+          <Link to='/forgot-password' className='text-red-primary text-16 mb-6 block'>
+            Quên mật khẩu ?
+          </Link>
           <input
             type='password'
             value={state.newPassword}

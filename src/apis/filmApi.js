@@ -44,10 +44,16 @@ export const updateFilmApi = async (slug, data) => {
   return promise;
 };
 
-export const deleteFilmApi = async (id) => {
-  try {
-    await axios.delete(`${path}/${id}`, { withCredentials: true });
-  } catch (err) {
-    console.log(err);
-  }
+export const deleteFilmApi = async (slug) => {
+  const promise = await axios.delete(`${path}/${slug}`, {
+    withCredentials: true,
+  });
+  return promise;
+};
+
+export const checkSlugApi = async (slug) => {
+  const promise = await axios.get(`${path}/checkSlug/${slug}`, {
+    withCredentials: true,
+  });
+  return promise;
 };

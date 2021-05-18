@@ -1,10 +1,12 @@
 /* eslint-disable indent */
 /* eslint-disable func-names */
-import { Modal } from '@material-ui/core';
+import { Modal, Snackbar } from '@material-ui/core';
 import { getUsersFilterApi } from 'apis/userApi';
 import queryString from 'query-string';
 import React, { useEffect, useState } from 'react';
 import { Helmet } from 'react-helmet';
+import { FcCheckmark } from 'react-icons/fc';
+import { TiDeleteOutline } from 'react-icons/ti';
 import { VscClose } from 'react-icons/vsc';
 import { Link } from 'react-router-dom';
 import { Loading } from 'utils/Loadable';
@@ -26,6 +28,9 @@ const ListUsers = (props) => {
     modalChangePassword: false,
     currentUser: {},
   });
+
+  const [loading, setLoading] = useState(false);
+  const [message, setMessage] = useState('');
 
   // Get data from store
   useEffect(() => {
@@ -103,6 +108,11 @@ const ListUsers = (props) => {
     });
   };
 
+  const handleSnackBar = (mess) => {
+    setMessage(mess);
+    setLoading(true);
+  }
+
   const toggleModalUpdateUser = () => {
     setState({
       ...state,
@@ -146,6 +156,27 @@ const ListUsers = (props) => {
           <Loading />
         ) : (
           <div className='listUsers__wrapTable h-50rem'>
+            <Snackbar
+              anchorOrigin={{
+                vertical: 'bottom',
+                horizontal: 'left',
+              }}
+              open={loading}
+              autoHideDuration={6000}
+              onClose={() => setLoading(!loading)}
+              message={(
+                <div className='flex items-center mr-10'>
+                  <FcCheckmark className='text-20 leading-20' />
+                  <span className='text-20 ml-4'>{message}</span>
+                </div>
+              )}
+              action={(
+                <TiDeleteOutline
+                  className='pr-4 text-30 text-red-primary leading-20 cursor-pointer'
+                  onClick={() => setLoading(false)}
+                />
+              )}
+            />
             <Modal
               open={state.modalUpdateUser}
               onClose={toggleModalUpdateUser}
@@ -163,6 +194,7 @@ const ListUsers = (props) => {
                 <UpdateUser
                   currentUser={state.currentUser}
                   setFlag={() => setState({ ...state, flag: !state.flag })}
+                  handleSnackBar={handleSnackBar}
                 />
               </div>
             </Modal>
@@ -183,6 +215,7 @@ const ListUsers = (props) => {
                 <ChangePasswordUser
                   user={state.currentUser}
                   toggleModalChangePassword={toggleModalChangePassword}
+                  handleSnackBar={handleSnackBar}
                 />
               </div>
             </Modal>
@@ -222,6 +255,7 @@ const ListUsers = (props) => {
                         modalChangePassword: !state.modalChangePassword,
                       })
                     }
+                    handleSnackBar={handleSnackBar}
                   />
                 ))}
               </tbody>

@@ -143,7 +143,7 @@ const Login = (props) => {
           <Link to={isAdmin && isRegister ? '/admin/manage/users' : '/'}>
             <img
               className='h-4rem lg:h-4.5rem'
-              src='https://res.cloudinary.com/nghiemduong2000/image/upload/v1618458158/Review%20Film%20Project/base/VMOFLIX-02-02_bpjidv.png'
+              src='https://res.cloudinary.com/nghiemduong2000/image/upload/v1618458158/VMOflix%20Project/VMOflix%20-%20base/VMOFLIX-02-02_bpjidv.webp'
               alt='Logo'
             />
           </Link>
@@ -210,17 +210,22 @@ const Login = (props) => {
             {!isRegister ? 'Đăng nhập' : 'Đăng ký'}
           </button>
           {!isRegister && !isAdmin ? (
-            <div className='flex items-center pt-6 pb-4'>
-              <span className='text-white text-14 mr-2'>
-                Chưa có tài khoản ?
-              </span>
-              <Link
-                className='text-red-primary text-14 font-bold hover:text-red-primary-d'
-                to='/register'
-              >
-                Đăng ký ngay
+            <>
+              <Link to='/forgot-password' className='text-red-primary text-16 mt-6'>
+                Quên mật khẩu ?
               </Link>
-            </div>
+              <div className='flex items-center pt-6 pb-4'>
+                <span className='text-white text-14 mr-2'>
+                  Chưa có tài khoản ?
+                </span>
+                <Link
+                  className='text-red-primary text-14 font-bold hover:text-red-primary-d'
+                  to='/register'
+                >
+                  Đăng ký ngay
+                </Link>
+              </div>
+            </>
           ) : null}
           {!isAdmin ? (
             <>

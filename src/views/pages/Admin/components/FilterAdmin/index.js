@@ -1,3 +1,4 @@
+import { stylesSelectFilterAdmin } from 'assets/styles/stylesMaterialUI/stylesSelect';
 import PropTypes from 'prop-types';
 import React from 'react';
 import { FaSearch } from 'react-icons/fa';
@@ -27,74 +28,6 @@ const FilterAdmin = (props) => {
     label: item.vn,
   }));
 
-  const stylesSelect = {
-    container: (styles) => ({
-      ...styles,
-      flex: '1',
-      ':not(:last-child)': {
-        marginRight: '1rem',
-      },
-    }),
-    control: (styles, { isFocused, isSelected }) => ({
-      ...styles,
-      backgroundColor: '#333',
-      border: 'none',
-      outline: isFocused ? 'none' : 'none',
-      borderRadius: '0.375rem',
-      minHeight: '43px',
-    }),
-    option: (styles, { isSelected }) => ({
-      ...styles,
-      color: isSelected ? 'rgb(229, 9, 20)' : 'rgb(156,163,175)',
-      fontSize: '20px',
-      backgroundColor: '#333',
-      ':hover': {
-        backgroundColor: '#555',
-      },
-      ':checked': {
-        color: 'rgb(229, 9, 20)',
-      },
-    }),
-    menu: (styles) => ({
-      ...styles,
-      backgroundColor: '#333',
-    }),
-    valueContainer: (styles) => ({
-      ...styles,
-      padding: '0 0 0 1.5rem',
-    }),
-    singleValue: (styles) => ({
-      ...styles,
-      color: 'rgb(156,163,175)',
-      fontSize: '20px',
-      fontFamily: '"Netflix Sans", Arial, Helvetica, sans-serif',
-      lineHeight: '2rem',
-    }),
-    placeholder: (styles) => ({
-      ...styles,
-      color: 'rgb(156,163,175)',
-      fontSize: '20px',
-      fontFamily: '"Netflix Sans", Arial, Helvetica, sans-serif',
-      lineHeight: '2rem',
-    }),
-    multiValue: (styles) => ({
-      ...styles,
-      fontSize: '14px',
-      margin: '0 0 0 4px',
-      backgroundColor: 'white',
-    }),
-    indicatorSeparator: (styles) => ({
-      ...styles,
-      display: 'none',
-    }),
-    indicatorContainer: (styles) => ({
-      ...styles,
-      ':hover': {
-        backgroundColor: 'hsl(0, 0%, 40%)',
-      },
-    }),
-  };
-
   const isManageFilms = pathname.indexOf('films') !== -1;
 
   return (
@@ -120,6 +53,7 @@ const FilterAdmin = (props) => {
           />
           <button
             type='submit'
+            aria-label='Tìm kiếm'
             className='text-20 text-white bg-red-primary px-16 rounded-md hover:bg-red-primary-d'
           >
             <FaSearch />
@@ -130,7 +64,7 @@ const FilterAdmin = (props) => {
             <Select
               isMulti
               options={genresOptions}
-              styles={stylesSelect}
+              styles={stylesSelectFilterAdmin}
               onChange={(option) =>
                 handleGenreFilter(option.map((item) => item.value))
               }
@@ -140,7 +74,7 @@ const FilterAdmin = (props) => {
           <Select
             value={sortData}
             options={sortOptions}
-            styles={stylesSelect}
+            styles={stylesSelectFilterAdmin}
             onChange={(option) => {
               handleSortData(option);
               if (!option.value) {
