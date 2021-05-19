@@ -1,30 +1,21 @@
 /* eslint-disable indent */
 /* eslint-disable func-names */
-import { Modal, Snackbar } from '@material-ui/core';
-import { deleteFilmApi, getFilmsFilterApi, updateFilmApi } from 'apis/filmApi';
+import { Snackbar } from '@material-ui/core';
+import { getFilmsFilterApi } from 'apis/filmApi';
 import queryString from 'query-string';
 import React, { useEffect, useState } from 'react';
 import { Helmet } from 'react-helmet';
-import { FaEdit, FaTrashAlt, FaTrashRestore } from 'react-icons/fa';
 import { FcCheckmark } from 'react-icons/fc';
-import { MdRemoveCircle } from 'react-icons/md';
 import { TiDeleteOutline } from 'react-icons/ti';
-import { VscClose } from 'react-icons/vsc';
-import { LazyLoadImage } from 'react-lazy-load-image-component';
-import { useSelector } from 'react-redux';
 import { Link, useLocation } from 'react-router-dom';
-import { categoriesSelectors } from 'state/modules/categories';
-import capitalizeFirstLetter from 'utils/capitalizeFirstLetter';
 import { Loading } from 'utils/Loadable';
 import FilterAdmin from '../FilterAdmin';
 import sortOptions from '../ListUsers/data';
+import RowTableFilms from './components/RowTableFilms';
 import './style.scss';
 
 const ListFilms = (props) => {
   const { pathname, state: isUpdated } = useLocation();
-  const categories = useSelector((state) =>
-    categoriesSelectors.categories(state),
-  ).toJS();
 
   const isBin = pathname.indexOf('bin') !== -1;
 
@@ -35,8 +26,6 @@ const ListFilms = (props) => {
     genreFilter: [],
     sortFilms: sortOptions[0],
     search: '',
-    lastSlug: '',
-    modalWarning: false,
   });
 
   const [loading, setLoading] = useState(false);
@@ -93,41 +82,6 @@ const ListFilms = (props) => {
       ...state,
       flag: !state.flag,
     });
-  };
-
-  const handleDelete = async (slug) => {
-    try {
-      if (!isBin) {
-        await updateFilmApi(slug, { softDelete: true });
-        setState({
-          ...state,
-          lastSlug: slug,
-        });
-        setTimeout(() => handleFlag(), 500);
-        setMessage(
-          'Đã chuyển phim vào thùng rác (Truy cập thùng rác để khôi phục)',
-        );
-        setLoading(true);
-      } else {
-        await deleteFilmApi(slug);
-        setTimeout(() => handleFlag(), 500);
-        setMessage('Phim đã bị xóa vĩnh viễn');
-        setLoading(true);
-      }
-    } catch (err) {
-      console.log(err);
-    }
-  };
-
-  const handleRestore = async (film) => {
-    try {
-      await updateFilmApi(film.slug, { softDelete: false });
-      setTimeout(() => handleFlag(), 500);
-      setMessage(`Đã khôi phục phim ${film.title}`);
-      setLoading(true);
-    } catch (err) {
-      console.log(err);
-    }
   };
 
   const handleSortFilms = (option) => {
@@ -251,141 +205,8 @@ const ListFilms = (props) => {
               </thead>
               <tbody>
                 {state.films.map((film, index) => {
-                  const {
-                    posterFilm,
-                    title,
-                    titleSearch,
-                    actor,
-                    genre,
-                    description,
-                  } = film;
                   return (
-                    <tr key={film._id}>
-                      <Modal
-                        open={state.modalWarning}
-                        onClose={() => {
-                          setState({
-                            ...state,
-                            modalWarning: !state.modalWarning,
-                          });
-                        }}
-                        aria-labelledby='simple-modal-title'
-                        aria-describedby='simple-modal-description'
-                        className='flex items-center justify-center'
-                      >
-                        <div className='bg-black-body flex items-center flex-col overflow-hidden rounded-2xl outline-none relative px-8 py-14 sm:px-24 sm:py-24'>
-                          <div
-                            className='absolute top-1rem sm:top-3rem right-1rem sm:right-3rem bg-black-body hover:bg-gray-primary-d transition-all duration-200 p-2 rounded-full cursor-pointer'
-                            onClick={() => {
-                              setState({
-                                ...state,
-                                modalWarning: false,
-                              });
-                            }}
-                          >
-                            <VscClose className='text-30 text-white' />
-                          </div>
-                          <MdRemoveCircle className='text-80 text-red-primary' />
-                          <h3 className='text-30 text-red-primary mt-6 pb-4 font-bold'>
-                            CẢNH BÁO
-                          </h3>
-                          <span className='text-20 text-white mb-16 block w-85% text-center text-red-primary'>
-                            Hành động xóa này không thể khôi phục cân nhắc trước
-                            khi xóa
-                          </span>
-                          <span className='text-20 text-white mb-10 text-center'>
-                            Bạn có chắc muốn xóa ?
-                          </span>
-                          <button
-                            type='button'
-                            className='py-4 px-10 bg-red-primary hover:bg-red-primary-d text-20 rounded-md text-white'
-                            onClick={() => handleDelete(film.slug)}
-                          >
-                            Đồng ý
-                          </button>
-                        </div>
-                      </Modal>
-                      <td className='text-center pl-3rem pt-4'>{index + 1}</td>
-                      <td className=''>
-                        <div className='p-film block relative left-1/2 transform -translate-x-1/2'>
-                          <LazyLoadImage
-                            alt={posterFilm}
-                            effect='blur'
-                            src={posterFilm}
-                            wrapperClassName='listFilms__table--img w-full h-full absolute top-0 left-0'
-                          />
-                        </div>
-                      </td>
-                      <td className='h-18rem overflow-y-auto'>
-                        <span className='block mb-2'>
-                          <strong className='text-gray-primary-l'>
-                            Tên phim:
-                          </strong>
-                          {` ${title}`}
-                        </span>
-                        <span>
-                          <strong className='text-gray-primary-l'>
-                            Tên tìm kiếm:
-                          </strong>
-                          {` ${titleSearch}`}
-                        </span>
-                      </td>
-                      <td className='capitalize'>
-                        {capitalizeFirstLetter(actor.join(', '))}
-                      </td>
-                      <td>
-                        {categories
-                          .filter((item) => {
-                            for (let i = 0; i < genre.length; i++) {
-                              if (item.genre === genre[i]) {
-                                return true;
-                              }
-                            }
-                            return false;
-                          })
-                          .map((item) => item.vn)
-                          .join(', ')}
-                      </td>
-                      <td className='w-full h-18rem overflow-y-auto inline-block'>
-                        {description}
-                      </td>
-                      <td>
-                        {isBin ? (
-                          <FaTrashRestore
-                            className='btnAction cursor-pointer text-orange-primary hover:text-orange-primary-d text-28 transition-all duration-200'
-                            onClick={() => handleRestore(film)}
-                          />
-                        ) : (
-                          <Link
-                            to={`/admin/films/${film.slug}`}
-                            className='flex justify-center cursor-pointer'
-                            aria-label='Sửa phim'
-                          >
-                            <FaEdit className='text-blue-facebook hover:text-blue-facebook-d text-26 transition-all duration-200' />
-                          </Link>
-                        )}
-                      </td>
-                      <td className='pr-1rem'>
-                        <div className='flex justify-center cursor-pointer'>
-                          {isBin ? (
-                            <FaTrashAlt
-                              className='btnAction text-red-primary hover:text-red-primary-d text-28 transition-all duration-200'
-                              onClick={() =>
-                                setState({
-                                  ...state,
-                                  modalWarning: true,
-                                })
-                              }
-                            />
-                          ) : (
-                            <MdRemoveCircle
-                              className='btnAction text-red-primary hover:text-red-primary-d text-28 transition-all duration-200'
-                              onClick={() => handleDelete(film.slug)}
-                            />
-                          )}
-                        </div>
-                      </td>
-                    </tr>
+                    <RowTableFilms key={film._id} film={film} isBin={isBin} index={index} handleFlag={handleFlag} setMessage={setMessage} setLoading={setLoading} />
                   );
                 })}
               </tbody>
