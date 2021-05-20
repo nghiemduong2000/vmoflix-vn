@@ -79,11 +79,6 @@ const DetailFilm = () => {
     // eslint-disable-next-line
   }, [slug]);
 
-  const handleDeleteFilm = (idFilm) => {
-    setRelated(related.filter((film) => film._id !== idFilm));
-    deleteFilmApi(idFilm);
-  };
-
   const handleUpdateFilm = (dataUpdate) => {
     setCurrentFilm(dataUpdate);
   };
@@ -228,7 +223,6 @@ const DetailFilm = () => {
                       numItemPerList={2}
                       margin='25px'
                       films={related}
-                      handleDeleteFilm={handleDeleteFilm}
                       className='flex-wrap'
                       related
                     />
@@ -237,7 +231,6 @@ const DetailFilm = () => {
                   <FilmListingsByGenre
                     filmsFilter={related}
                     genre='Phim liên quan'
-                    handleDeleteFilm={handleDeleteFilm}
                   />
                 )}
               </div>

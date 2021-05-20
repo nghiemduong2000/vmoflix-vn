@@ -2,11 +2,11 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import {
-  LazyLoadImage,
-  trackWindowScroll,
+  trackWindowScroll
 } from 'react-lazy-load-image-component';
 import 'react-lazy-load-image-component/src/effects/blur.css';
 import { Link } from 'react-router-dom';
+import LazyLoad from './components/LazyLoad';
 import './style.scss';
 
 /**
@@ -48,13 +48,7 @@ const Gallery = (props) => {
               }
             }}
           >
-            <LazyLoadImage
-              alt={film.posterFilm}
-              effect='blur'
-              scrollPosition={scrollPosition}
-              src={film.posterFilm}
-              wrapperClassName='gallery__link-item gallery-img-wrapper w-full h-full absolute top-0'
-            />
+            <LazyLoad scrollPosition={scrollPosition} film={film} />
           </Link>
         </li>
       ))}

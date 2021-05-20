@@ -1,6 +1,9 @@
+import { Snackbar } from '@material-ui/core';
 import { updateFilmApi } from 'apis/filmApi';
 import PropTypes from 'prop-types';
 import React, { useState } from 'react';
+import { FcCheckmark } from 'react-icons/fc';
+import { TiDeleteOutline } from 'react-icons/ti';
 import { useSelector } from 'react-redux';
 import { Link, useLocation } from 'react-router-dom';
 import { userSelectors } from 'state/modules/user';
@@ -17,20 +20,26 @@ const ReviewWrite = (props) => {
   );
 
   const user = useSelector((state) => userSelectors.user(state));
+  const [state, setState] = useState({
+    comment: '',
+    rating: '',
+    loading: false
+  });
 
-  const [comment, setComment] = useState('');
-  const [rating, setRating] = useState(0);
   const [error, setError] = useState('');
 
   const handleChangeVote = (value) => {
-    setRating(value);
+    setState({
+      ...state,
+      rating: value
+    })
   };
 
   // Submit comment review
   const onSubmitComment = async (e) => {
     try {
       e.preventDefault();
-      if (rating > 0 && comment) {
+      if (state.rating > 0 && state.comment) {
         const idReview = uuidv4();
 
         const newReviews = [...reviews];
@@ -39,15 +48,19 @@ const ReviewWrite = (props) => {
         newReviews.unshift({
           _id: idReview,
           user: { _id, imageUser, userName, userEmail },
-          rating,
-          comment,
+          rating: state.rating,
+          comment: state.comment,
         });
 
         await updateFilmApi(currentFilm.slug, { reviews: newReviews });
 
         handleUpdateFilm({ ...currentFilm, reviews: newReviews });
-        setRating(0);
-        setComment('');
+        setState({
+          ...state,
+          rating: 0,
+          comment: '',
+          loading: true
+        })
       } else {
         setError('Vui lòng nhập sao và bình luận');
       }
@@ -58,6 +71,33 @@ const ReviewWrite = (props) => {
 
   return (
     <div className='reviewFilm__write'>
+      <Snackbar
+        anchorOrigin={{
+          vertical: 'bottom',
+          horizontal: 'left',
+        }}
+        open={state.loading}
+        autoHideDuration={6000}
+        onClose={() => setState({
+          ...state,
+          loading: false
+        })}
+        message={(
+          <div className='flex items-center mr-10'>
+            <FcCheckmark className='text-20 leading-20' />
+            <span className='text-20 ml-4'>Bình luận đã được gửi</span>
+          </div>
+        )}
+        action={(
+          <TiDeleteOutline
+            className='pr-4 text-30 text-red-primary leading-20 cursor-pointer'
+            onClick={() => setState({
+              ...state,
+              loading: false
+            })}
+          />
+        )}
+      />
       <div className='reviewFilm__write-form'>
         <h4>Bình luận</h4>
         {isAuthenticated ? (
@@ -75,14 +115,17 @@ const ReviewWrite = (props) => {
               <RatingStar
                 className='reviewFilm__write-rating'
                 handleChangeVote={handleChangeVote}
-                ratingPercent={rating * 20}
+                ratingPercent={state.rating * 20}
               />
             </div>
             <textarea
               placeholder='Mời bạn viết bình luận ...'
               className='reviewFilm__write-comment'
-              value={comment}
-              onChange={(e) => setComment(e.target.value)}
+              value={state.comment}
+              onChange={(e) => setState({
+                ...state,
+                comment: e.target.value
+              })}
             />
             <div className='reviewFilm__write-form-submit'>
               <button
