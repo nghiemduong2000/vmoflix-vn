@@ -89,7 +89,7 @@ const Navbar = (props) => {
             <Link
               className='flex items-center'
               to='/'
-              onClick={() => setShowSearchBox(false)}
+              onClick={() => {window.scrollTo({top: 0, left: 0, behavior: 'smooth'}); setShowSearchBox(false)}}
             >
               <img
                 // eslint-disable-next-line max-len

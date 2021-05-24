@@ -4,7 +4,7 @@
 import { Modal } from '@material-ui/core';
 import PropTypes from 'prop-types';
 import React, { useState } from 'react';
-import { FaPlay } from 'react-icons/fa';
+import { FaPlay, FaVolumeMute, FaVolumeUp } from 'react-icons/fa';
 import { VscClose } from 'react-icons/vsc';
 import ReactPlayer from 'react-player';
 import { useSelector } from 'react-redux';
@@ -18,6 +18,7 @@ const List = (props) => {
   const { films, className, order, numItemPerList, margin, related } = props;
   const [currentFilm, setCurrentFilm] = useState({});
   const [modalFilm, setModalFilm] = useState(false);
+  const [muted, setMuted] = useState(false);
   const categories = useSelector((state) =>
     categoriesSelectors.categories(state),
   ).toJS();
@@ -50,6 +51,7 @@ const List = (props) => {
               url={currentFilm.trailerURL}
               playing
               loop
+              muted={muted}
               style={{
                 position: 'absolute',
                 top: 0,
@@ -70,8 +72,11 @@ const List = (props) => {
             <h3 className='text-30 2xl:text-40 text-white font-bold w-50rem absolute left-4rem bottom-16rem'>
               {currentFilm.title}
             </h3>
+            <div className='absolute bottom-6rem right-4rem cursor-pointer' onClick={() => setMuted(!muted)}>
+              {muted ? <FaVolumeMute className='text-40 text-white leading-20' /> : <FaVolumeUp className='text-40 text-white leading-20' />}
+            </div>
             <div
-              className='absolute top-3rem right-3rem bg-black-body hover:bg-gray-primary-d transition-all duration-200 p-2 rounded-full cursor-pointer'
+              className='absolute top-3rem right-4rem bg-black-body hover:bg-gray-primary-d transition-all duration-200 p-2 rounded-full cursor-pointer'
               onClick={toggleModalFilm}
             >
               <VscClose className='text-30 text-white' />
