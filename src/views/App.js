@@ -26,8 +26,8 @@ import Login from './pages/Login';
 
 axios.defaults.baseURL =
   process.env.NODE_ENV === 'production'
-    ? 'https://exercise-blog-api.herokuapp.com/'
-    : 'http://localhost:5000';
+    ? 'https://vmoflix-api.onrender.com'
+    : 'http://localhost:5500';
 
 const App = () => {
   const dispatch = useDispatch();
